@@ -1,0 +1,112 @@
+.doctor-home-wrapper {
+  padding: 30px;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 12px 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #2e7d32;
+  color: white;
+}
+
+button {
+  padding: 6px 12px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:first-of-type {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Default desktop table view */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.request-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.request-table th, .request-table td {
+  padding: 12px 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
+}
+
+.request-table th {
+  background-color: #2e7d32;
+  color: white;
+}
+
+/* Mobile card view */
+.card-list {
+  display: none;
+  margin-top: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 14px;
+}
+
+.card-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.card-actions button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card-actions button:first-child {
+  background-color: #4caf50;
+  color: white;
+}
+
+.card-actions button:last-child {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Toggle views based on screen width */
+@media (max-width: 768px) {
+  .table-responsive {
+    display: none;
+  }
+
+  .card-list {
+    display: flex;
+  }
+}

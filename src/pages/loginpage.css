@@ -1,0 +1,108 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  font-family: "Arial", sans-serif;
+}
+.login-background {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+
+.login-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../assets/login-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px);
+  z-index: -1;
+}
+
+.login-card {
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 20px 15px 30px rgba(0, 249, 12, 0.2);
+  width: 350px;
+  direction: rtl;
+  text-align: center;
+}
+
+.login-card h2 {
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.login-card p {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.login-card .input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+
+.login-card .input-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  direction: ltr;
+}
+
+.login-card .input-group i {
+  margin-left: 8px;
+  color: #555;
+}
+
+.login-card button {
+  width: 100%;
+  background-color: #2e7d32;
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-card button:hover {
+  background-color: #153f18;
+}
+
+.login-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+}
+
+.logo {
+  height: 40px;
+}
+
+.site-name {
+  color: white;
+  font-weight: 900;
+  font-size: 16px;
+  display: flex;
+  
+}
