@@ -1,0 +1,36 @@
+.custom-header {
+  background-color: #2e7d32;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  font-family: "Arial", sans-serif;
+}
+
+.header-left,
+.header-center,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-center {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+
+.header-center img {
+  height: 40px;
+}
+
+.header-right {
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.header-right:hover {
+  opacity: 0.8;
+}
