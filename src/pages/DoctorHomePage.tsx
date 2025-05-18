@@ -2,42 +2,63 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/drHeader";
 import "./DoctorHomePage.css";
 import { useNavigate } from "react-router-dom";
-
-interface ActivityRequest { 
-  id: number;
-  studentName: string;
-  activityType: string;
-  date: string;
-  status: string;
-}
+import { ActivityFormService } from "../services/ActivityFormService";
+import { ActivityForm } from "../models/ActivityForm";
 
 const DoctorHomePage: React.FC = () => {
-  const username = "dr.abdullah";
-  const [requests, setRequests] = useState<ActivityRequest[]>([]);
-  
+  const navigate = useNavigate();
+  const [requests, setRequests] = useState<ActivityForm[]>([]);
+
+  const username = (() => {
+    const userData = localStorage.getItem("user");
+    const loggedInUser = userData ? JSON.parse(userData) : null;
+    return loggedInUser ? `${loggedInUser.firstName} ${loggedInUser.lastName}` : "ضيف";
+  })();
+
   useEffect(() => {
-    // Later: fetch from API
-    const demoRequests = [
-      {
-        id: 1,
-        studentName: "Ahmad Mohammad",
-        activityType: "ورشة عمل",
-        date: "2025-05-09",
-        status: "قيد المراجعة"
-      },
-    ];
-    setRequests(demoRequests);
+    const fetchRequests = async () => {
+      try {
+        const data = await ActivityFormService.getAll();
+        setRequests(data);
+      } catch (error) {
+        console.error("Error fetching activity forms:", error);
+        alert("تعذر تحميل بيانات الأنشطة.");
+      }
+    };
+    fetchRequests();
   }, []);
 
-  const navigate = useNavigate();
-  
-  const handleStatusChange = (id: number, newStatus: string) => {
-    setRequests((prev) =>
-      prev.map((req) =>
-        req.id === id ? { ...req, status: newStatus } : req
-      )
-    );
+  const handleStatusChange = async (
+    form: ActivityForm,
+    action: "APPROVE" | "REJECT"
+  ) => {
+    console.log(`Attempting to change status of form ID ${form.id} to ${action}`);
+
+    const updatedForm: ActivityForm = {
+      ...form,
+      workflowAction: action,
+    };
+
+    try {
+      const result = await ActivityFormService.updateStatus(updatedForm);
+      console.log("Backend response:", result);
+
+      setRequests((prev) =>
+        prev.map((r) =>
+          r.id === form.id
+            ? { ...r, status: action === "APPROVE" ? "مقبول" : "مرفوض" }
+            : r
+        )
+      );
+
+      alert("تم تحديث حالة الطلب بنجاح");
+    } catch (error: any) {
+      console.error("Error during updateStatus call:", error.response || error);
+      alert("تعذر تحديث حالة الطلب. تحقق من الاتصال أو سجل الأخطاء.");
+    }
   };
+
+
 
   return (
     <div>
@@ -45,69 +66,37 @@ const DoctorHomePage: React.FC = () => {
       <main className="doctor-home-wrapper">
         <h2>Review Student Activity Requests</h2>
         <div className="table-responsive">
-      <table className="request-table">
-  <thead>
-    <tr>
-      <th>Student</th>
-      <th>Activity</th>
-      <th>Date</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    {requests.map((r) => (
-      <tr key={r.id} onClick={() => navigate(`/review/${r.id}`)} style={{ cursor: "pointer" }}>
-        <td>{r.studentName}</td>
-        <td>{r.activityType}</td>
-        <td>{r.date}</td>
-        <td>{r.status}</td>
-        <td>
-          <button onClick={(e) => { e.stopPropagation(); handleStatusChange(r.id, "مقبول"); }}>Approve</button>
-          <button onClick={(e) => { e.stopPropagation(); handleStatusChange(r.id, "مرفوض"); }}>Reject</button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-
+          <table className="request-table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Activity</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {requests.map((activityRequest) => (
+                <tr key={activityRequest.id}>
+                  <td
+                    style={{ cursor: "pointer", textDecoration: "underline" }}
+                    onClick={() => navigate(`/review/${activityRequest.id}`)}
+                  >
+                    {`${activityRequest.student.firstName} ${activityRequest.student.lastName}`}
+                  </td>
+                  <td>{activityRequest.activityType}</td>
+                  <td>{activityRequest.activityDate}</td>
+                  <td>{activityRequest.status}</td>
+                  <td>
+                    <button onClick={() => handleStatusChange(activityRequest, "APPROVE")}>Approve</button>
+                    <button onClick={() => handleStatusChange(activityRequest, "REJECT")}>Reject</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div className="card-list">
-  {requests.map((r) => (
-    <div
-  className="card"
-  key={r.id}
-  onClick={() => navigate(`/review/${r.id}`)}
-  style={{ cursor: "pointer" }} >
-
-      <div><strong>Student:</strong> {r.studentName}</div>
-      <div><strong>Activity:</strong> {r.activityType}</div>
-      <div><strong>Date:</strong> {r.date}</div>
-      <div><strong>Status:</strong> {r.status}</div>
-      <div className="card-actions">
-      <button
-      onClick={(e) => {
-      e.stopPropagation();
-      handleStatusChange(r.id, "مقبول");
-      }}
-         >
-      Approve
-      </button>
-
-        <button
-  onClick={(e) => {
-    e.stopPropagation();
-    handleStatusChange(r.id, "مرفوض");
-  }}
->
-  Reject
-</button>
-
-      </div>
-    </div>
-  ))}
-  </div>
       </main>
     </div>
   );

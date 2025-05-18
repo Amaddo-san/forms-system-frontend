@@ -4,11 +4,23 @@ import "./RequestFormPage.css";
 import { useNavigate } from "react-router-dom";
 import ConfirmSubmitModal from "../components/ConfirmSubmitModal";
 
+import { ActivityForm } from "../models/ActivityForm";
+import { User, Faculty } from "../models/User";
+import { Occupation } from "../models/Occupation";
+import { ActivityFormService } from "../services/ActivityFormService";
+
 const RequestFormPage: React.FC = () => {
-  const username: string = "ahmad123";
   const navigate = useNavigate();
 
-  const [activityType, setActivityType] = useState<string[]>([]);
+  // Load logged-in user from localStorage
+  const userData = localStorage.getItem("user");
+  const loggedInUser = userData ? JSON.parse(userData) : null;
+
+  const username = loggedInUser
+    ? `${loggedInUser.firstName} ${loggedInUser.lastName}`
+    : "ضيف";
+
+  const [activityType, setActivityType] = useState<string>("");
   const [description, setDescription] = useState("");
   const [organization, setOrganization] = useState("");
   const [date, setDate] = useState("");
@@ -37,19 +49,47 @@ const RequestFormPage: React.FC = () => {
     setShowConfirmModal(true);
   };
 
-  const confirmSubmission = () => {
-    const submission = {
-      id: Date.now(),
-      name: activityType.join(" - "),
-      date: new Date().toLocaleDateString(),
-      status: "Under Review",
-    };
+  const confirmSubmission = async () => {
+    if (!loggedInUser) {
+      alert("يرجى تسجيل الدخول أولاً.");
+      return;
+    }
 
-    const existing = JSON.parse(localStorage.getItem("submissions") || "[]");
-    localStorage.setItem("submissions", JSON.stringify([...existing, submission]));
+    const user = new User(
+      loggedInUser.universityId,
+      loggedInUser.email,
+      loggedInUser.password ?? "",
+      loggedInUser.phoneNumber,
+      loggedInUser.firstName,
+      loggedInUser.middleName,
+      loggedInUser.lastName,
+      loggedInUser.faculty as Faculty,
+      loggedInUser.occupation as Occupation
+    );
 
-    setSubmissionResult("success");
-    setShowConfirmModal(false);
+    const activityForm = new ActivityForm(
+      "NEW",
+      user,
+      supervisor,
+      activityType,
+      date,
+      organization,
+      location,
+      `${date}T${fromTime}`,
+      `${date}T${toTime}`,
+      user.phoneNumber,
+      description
+    );
+
+    try {
+      await ActivityFormService.submit(activityForm);
+      setSubmissionResult("success");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("حدث خطأ أثناء إرسال الطلب. الرجاء المحاولة مرة أخرى.");
+    } finally {
+      setShowConfirmModal(false);
+    }
   };
 
   if (submissionResult) {
@@ -86,15 +126,22 @@ const RequestFormPage: React.FC = () => {
             <div>
               <label>نوع النشاط:</label>
               <div className="activity-type-group">
-                {["مبادرة", "محاضرة", "دورة تدريبية", "ورشة", "معرض", "مسابقة"].map((type) => (
+                {[
+                  "مبادرة",
+                  "محاضرة",
+                  "دورة تدريبية",
+                  "ورشة",
+                  "معرض",
+                  "مسابقة"
+                ].map((type) => (
                   <div key={type} className="activity-type-option">
                     <input
                       type="radio"
                       name="activityType"
                       id={type}
                       value={type}
-                      checked={activityType.includes(type)}
-                      onChange={() => setActivityType([type])}
+                      checked={activityType === type}
+                      onChange={(e) => setActivityType(e.target.value)}
                       required
                     />
                     <label htmlFor={type}>{type}</label>

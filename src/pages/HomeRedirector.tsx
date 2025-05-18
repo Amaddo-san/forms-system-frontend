@@ -1,12 +1,34 @@
-import React from "react";
-import HomePage from "./HomePage";
-import DoctorHomePage from "./DoctorHomePage";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomeRedirector: React.FC = () => {
-  const role = localStorage.getItem("userRole");
+  const navigate = useNavigate();
 
-  if (role === "doctor") return <DoctorHomePage />;
-  return <HomePage />;
+  useEffect(() => {
+    try {
+      const userData = localStorage.getItem("user");
+      if (!userData) {
+        navigate("/login");
+        return;
+      }
+
+      const user = JSON.parse(userData);
+
+      if (user.occupation === "STUDENT") {
+        navigate("/home");
+      } else if (user.occupation !== "STUDENT") {
+        navigate("/doctor-home");
+      } else {
+        // fallback if role is unexpected
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Redirection failed:", error);
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  return <div>Redirecting...</div>;
 };
 
 export default HomeRedirector;

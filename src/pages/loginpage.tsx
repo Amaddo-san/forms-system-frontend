@@ -8,16 +8,35 @@ const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (username.startsWith("dr.")) {
-      localStorage.setItem("userRole", "doctor");
-    } else {
-      localStorage.setItem("userRole", "student");
-    }
+    try {
+      const response = await fetch("http://localhost:8081/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: username, password }),
+      });
 
-    navigate("/home");
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+
+      // Store token & user
+      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // Let HomeRedirector handle routing logic
+      navigate("/");
+
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("فشل تسجيل الدخول. يرجى التحقق من المعلومات.");
+    }
   };
 
   return (

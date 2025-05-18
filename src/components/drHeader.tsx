@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./Header.css";
 import logo from "../assets/uoj-logo.png";
+import { logout } from "../services/LogoutService";
 
 type Props = {
   username: string;
 };
 
-const Header: React.FC<Props> = ({ username }) => {
+const DrHeader: React.FC<Props> = ({ username }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -18,8 +19,12 @@ const Header: React.FC<Props> = ({ username }) => {
       </div>
 
       <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
-        <span><i className="ri-user-line"></i> @{username} </span>
-        <a href="/"><i className="ri-logout-box-line"></i> Logout</a>
+        <span>
+          <i className="ri-user-line"></i> @{username}
+        </span>
+        <button className="logout-link" onClick={logout}>
+          <i className="ri-logout-box-line"></i> Logout
+        </button>
       </nav>
 
       <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
@@ -29,4 +34,4 @@ const Header: React.FC<Props> = ({ username }) => {
   );
 };
 
-export default Header;
+export default DrHeader;

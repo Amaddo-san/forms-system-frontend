@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Header.css";
 import logo from "../assets/uoj-logo.png";
+import { logout } from "../services/LogoutService";
 
 type Props = {
   username: string;
@@ -19,10 +20,14 @@ const Header: React.FC<Props> = ({ username }) => {
 
       <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
         <a href="/request-form">
-          <i className="ri-external-link-line"></i> Request New Form 
+          <i className="ri-external-link-line"></i> Request New Form
         </a>
-        <span><i className="ri-user-line"></i> @{username} </span>
-        <a href="/"><i className="ri-logout-box-line"></i> Logout</a>
+        <span>
+          <i className="ri-user-line"></i> @{username}
+        </span>
+        <button className="logout-link" onClick={logout}>
+          <i className="ri-logout-box-line"></i> Logout
+        </button>
       </nav>
 
       <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
