@@ -1,8 +1,8 @@
 import { Faculty } from "./Faculty";
 import { Occupation } from "./Occupation";
 
-
 export class User {
+    id: number; // now required
     universityId: string;
     email: string;
     password: string;
@@ -14,6 +14,7 @@ export class User {
     occupation: Occupation;
 
     constructor(
+        id: number,
         universityId: string,
         email: string,
         password: string,
@@ -24,6 +25,7 @@ export class User {
         faculty: Faculty,
         occupation: Occupation
     ) {
+        this.id = id;
         this.universityId = universityId;
         this.email = email;
         this.password = password;
@@ -35,5 +37,4 @@ export class User {
         this.occupation = occupation;
     }
 }
-export { Faculty };
-
+export { Faculty, Occupation };
