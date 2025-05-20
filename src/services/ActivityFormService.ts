@@ -14,8 +14,9 @@ export const ActivityFormService = {
     },
 
     async getAll(): Promise<ActivityForm[]> {
-        const response = await axios.get(`${BASE_URL}/get-all`);
+        const response = await axios.get<ActivityForm[]>(`${BASE_URL}/get-all`);
         return response.data;
+
     },
 
     async updateStatus(form: ActivityForm) {
@@ -29,7 +30,7 @@ export const ActivityFormService = {
         const response = await axios.delete(`${BASE_URL}/delete`, {
             data: form,
             headers: { "Content-Type": "application/json" }
-        });
+        }as any );
         return response.data;
     }
 };

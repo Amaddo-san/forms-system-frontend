@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import "./RequestFormPage.css";
 import { useNavigate } from "react-router-dom";
 import ConfirmSubmitModal from "../components/ConfirmSubmitModal";
-
+import Sidebar from "../components/Sidebar";
 import { ActivityForm } from "../models/ActivityForm";
 import { User, Faculty } from "../models/User";
 import { Occupation } from "../models/Occupation";
@@ -119,6 +119,10 @@ const RequestFormPage: React.FC = () => {
   return (
     <div>
       <Header username={username} />
+      <div style={{ display: "flex" }}>
+      <Sidebar />
+            <div style={{ flex: 1, padding: "20px", overflowY: "auto", maxHeight: "calc(100vh - 64px)" }}>
+
       <main className="request-form-wrapper">
         <div className="request-form-container">
           <h2>نموذج طلب إقامة نشاط</h2>
@@ -193,6 +197,8 @@ const RequestFormPage: React.FC = () => {
           </form>
         </div>
       </main>
+      </div>
+      </div>
 
       {showConfirmModal && (
         <ConfirmSubmitModal

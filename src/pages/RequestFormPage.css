@@ -6,6 +6,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     direction: rtl;
     font-family: 'Arial', sans-serif;
+    margin-left: 160px;
   }
   
   .request-form-container h2 {
@@ -34,7 +35,7 @@
   
   .request-form-container button {
     margin-top: 15px;
-    background-color: #2e7d32;
+    background-color: #1e293b;
     color: white;
     padding: 12px;
     border: none;
@@ -46,7 +47,7 @@
   }
   
   .request-form-container button:hover {
-    background-color: #256429;
+    background-color: #334766;
   }
   
   .activity-type-group {
@@ -89,7 +90,7 @@ main.request-form-wrapper {
 
 .request-form-container h2 {
   text-align: center;
-  color: #2e7d32;
+  color: #1e293b;
   margin-bottom: 25px;
 }
 
