@@ -1,122 +1,285 @@
-body, html, #root {
-  height: 100%;
+body {
   margin: 0;
-  font-family: "Arial", sans-serif;
-}
-
-.login-wrapper {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  height: 100%;
   overflow: hidden;
+  width: 100% !important;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* 🎨 Animated Hero Gradient */
-.hero-bg {
+.backRight {
+  position: absolute;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: #03A9F4;
+}
+
+
+
+#back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 0;
+}
+
+
+#slideBox {
+  z-index: 10;
+  width: 50%;
+  max-height: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin-left: 50%;
+  position: absolute;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.topLayer {
+  width: 200%;
+  height: 100%;
+  position: relative;
+  left: -100%;
+}
+
+.left-section {
+  position: absolute;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.left-bg-blur {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
   width: 100%;
-  background: linear-gradient(-45deg, #04eb0f, #1e3c72, #2a5298, #00c853);
-  background-size: 400% 400%;
-  animation: gradientShift 12s ease infinite;
+  height: 100%;
+  background-image: url("/public/login-bg.jpg"); /* ✅ correct path */
+  background-size: cover;
+  background-position: center;
+  filter: blur(3px);
   z-index: 0;
-  filter: brightness(0.7);
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
 
-.login-header {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 10;
-}
-
-.logo {
-  height: 40px;
-}
-
-.site--name {
-  color: white;
-  font-weight: 900;
-  font-size: 16px;
-}
-
-/* 🧊 Login Card */
-.login-card {
+.left-overlay-content {
   position: relative;
   z-index: 1;
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: 40px 30px;
-  border-radius: 16px;
-  max-width: 400px;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+  color: white;
 }
 
-.login-card h2 {
-  color: #2e7d32;
+.ju-logo {
+  width: 80px;
   margin-bottom: 10px;
 }
 
-.login-card p {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 25px;
+.site-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 1px;
 }
 
-/* 🔲 Input Group */
-.input-group {
+.desktop-title{
+  text-shadow:0px 3px #33087d;
+}
+
+label {
+  font-size: 0.8em;
+  text-transform: uppercase;
+}
+
+input {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 1em;
+  padding: 8px 1px;
+  margin-top: 0.1em;
+}
+
+.right {
+  width: 50%;
+  height: 100%;
+  overflow: scroll;
+  background: #f9f9f9;
+  right: 0;
+  position: absolute;
+}
+
+.right label {
+  color: #212121;
+}
+
+.right input {
+  border-bottom: 1px solid #212121;
+}
+
+.right input:focus,
+.right input:active {
+  border-color: #33087d;
+}
+
+.right input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #f9f9f9 inset;
+  -webkit-text-fill-color: #212121;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.content h2 {
+  font-weight: 300;
+  font-size: 2.6em;
+  margin: 0.2em 0 0.1em;
+  color: #33087d;
+}
+
+.form-element {
+  margin: 1.6em 0;
+}
+
+.form-element.form-submit {
+  margin: 1.6em 0 0;
+}
+
+.form-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  padding: 0.8em 1.2em;
+  margin: 0 10px 0 0;
+  width: auto;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1em;
+  color: #fff;
+  line-height: 1em;
+  letter-spacing: 0.6px;
+  border-radius: 3px;
+  border: 0;
+  outline: 0;
+  transition: all 0.25s;
+}
+
+button.login {
+  background: #33087d;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1);
+}
+
+button.login:hover,
+button.login:focus,
+button.login:active {
+  background: #512DA8;
+  box-shadow: 0 4px 7px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1);
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  #slideBox {
+    width: 80%;
+    margin-left: 20%;
+  }
+}
+
+/* Hide mobile title by default, show desktop */
+.mobile-title {
+  display: none;
+}
+
+.desktop-title {
+  display: inline;
+}
+
+/* On mobile */
+@media (max-width: 768px) {
+  .left-overlay-content {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+    text-align: center;
+  }
+
+  .site-title {
+    color: #512DA8;
+    font-size: 2rem;
+    margin-left: 10px;
+  }
+
+  .mobile-title {
+    display: inline;
+  }
+
+  .desktop-title {
+    display: none;
+  }
+
+  .welcome-quote {
+    font-size: 1.2rem;
+    margin-top: 15px;
+    text-align: center;
+    padding: 0 15px;
+    max-width: 90%;
+  }
+
+  .ju-logo {
+    width: 70px;
+    margin-bottom: 10px;
+  }
+
+  .content {
+    align-items: center;
+  }
+}
+
+
+.input-icon-group .input-wrapper {
   display: flex;
   align-items: center;
-  background: #dbd9d9;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 20px;
+  border-bottom: 1px solid #212121;
 }
 
-.input-group i {
+.input-icon-group .input-wrapper i {
   margin-right: 10px;
-  color: #6f6767;
-  font-size: 18px;
-  cursor: pointer;
+  font-size: 1.2em;
+  color: #777;
 }
 
-.input-group input {
-  border: none;
-  background: transparent;
-  outline: #04eb0f;
+.input-icon-group .input-wrapper input {
   flex: 1;
-  font-size: 15px;
-  color: #333;
-}
-
-/* ✅ Login Button */
-.login-btn {
-  background-color: #2e7d32;
-  color: white;
   border: none;
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  outline: none;
+  background: transparent;
+  font-size: 1em;
+  padding: 10px 0;
+  color: #212121;
 }
 
-.login-btn:hover {
-  background-color: #256429;
-  
+.welcome-quote {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 50px;
 }
