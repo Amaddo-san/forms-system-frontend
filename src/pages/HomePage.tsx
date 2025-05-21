@@ -124,36 +124,35 @@ const HomePage: React.FC = () => {
 
         <div className="home-page" style={{ marginLeft: "220px", width: "100%" }}>
           <h2 className="section-title">Activity History</h2>
-          <div className="search-bar">
+
+<div className="table-controls">
   <input
     type="text"
     placeholder="Search by name, status, or date..."
     value={searchQuery}
     onChange={(e) => setSearchQuery(e.target.value)}
   />
+
+  <div className="filter-bar">
+    <label htmlFor="status-filter">Filter by status:</label>
+    <select
+      id="status-filter"
+      value={selectedStatus}
+      onChange={(e) => {
+        setSelectedStatus(e.target.value);
+        setCurrentPage(1);
+      }}
+    >
+      {statuses.map((status) => (
+        <option key={status} value={status}>{status}</option>
+      ))}
+    </select>
+  </div>
 </div>
 
-          <div className="filter-bar">
-            <label htmlFor="status-filter">Filter by status:</label>
-            <select
-              id="status-filter"
-              value={selectedStatus}
-              onChange={(e) => {
-                setSelectedStatus(e.target.value);
-                setCurrentPage(1);
-              }}
-            >
-              {statuses.map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
-            </select>
-          </div>
-         
           {/* Table Design */}
           
-          <table className="activity-table">
+          <table className="activity-table0">
             <thead>
               <tr>
                 <th>ID</th>
@@ -178,7 +177,7 @@ const HomePage: React.FC = () => {
           {item.status}
         </span>
       </td>
-      <td className="table-actions">
+      <td className="table-actions0">
         <button
           onClick={(e) => {
             e.stopPropagation(); // ⛔ prevent row click

@@ -9,14 +9,21 @@ const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // TEMPORARY: Skip backend and navigate directly to homepage
-    localStorage.setItem("userRole", "student"); // You can change to "doctor" if needed
-    navigate("/home");
+    // ===== Simulated Login Logic =====
+    const role = username.startsWith("dr.") ? "doctor" : "student";
+    localStorage.setItem("userRole", role);
+    localStorage.setItem("user", JSON.stringify({ email: username, occupation: role.toUpperCase() }));
 
-    // === Original Backend Login Code (Commented Out) ===
+    if (role === "doctor") {
+      navigate("/doctor-home");
+    } else {
+      navigate("/home");
+    }
+
+    // ===== Original Backend Login Logic (Commented Out) =====
     /*
     try {
       const response = await fetch("http://localhost:8081/api/auth/login", {
@@ -43,6 +50,7 @@ const LoginPage: React.FC = () => {
   return (
     <>
       <div id="back">
+        {/* Left Section */}
         <div className="left-section">
           <div className="left-bg-blur" />
           <div className="left-overlay-content">
@@ -54,8 +62,8 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Right Section */}
         <div className="backRight" />
-
         <div id="slideBox">
           <div className="topLayer">
             <div className="right">
@@ -64,6 +72,7 @@ const LoginPage: React.FC = () => {
                   Welcome to JUAS – your gateway to seamless activity booking and approval
                 </p>
                 <h2>Login</h2>
+
                 <form onSubmit={handleSubmit}>
                   <div className="form-element form-stack input-icon-group">
                     <label htmlFor="username-login" className="form-label">Username</label>

@@ -13,13 +13,14 @@ const HomeRedirector: React.FC = () => {
       }
 
       const user = JSON.parse(userData);
+      const role = user.occupation?.toUpperCase();
 
-      if (user.occupation === "STUDENT") {
+      if (role === "STUDENT") {
         navigate("/home");
-      } else if (user.occupation !== "STUDENT") {
+      } else if (role === "DOCTOR") {
         navigate("/doctor-home");
       } else {
-        // fallback if role is unexpected
+        // Unknown role
         navigate("/login");
       }
     } catch (error) {

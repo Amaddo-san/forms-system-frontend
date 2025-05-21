@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import "./SubmissionDetailsPage.css"; // reuse styles
+import Header from "../components/drHeader";
+import "./RequestFormPage.css"; // Reuse form styles
 
 interface Submission {
   id: number;
   studentName: string;
-  eventName: string;
+  name: string;
   description: string;
   organization: string;
   date: string;
@@ -23,8 +23,6 @@ interface Submission {
 const ReviewSubmissionPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const username = "dr.abdullah";
-
   const [submission, setSubmission] = useState<Submission | null>(null);
 
   useEffect(() => {
@@ -33,28 +31,70 @@ const ReviewSubmissionPage: React.FC = () => {
     setSubmission(found || null);
   }, [id]);
 
-  if (!submission) return <div>Submission not found</div>;
-
   return (
     <div>
-      <Header username={username} />
-      <main className="submission-details-wrapper">
-        <h2>مراجعة تفاصيل النشاط</h2>
-        <div className="details-card">
-          <p><strong>اسم الطالب:</strong> {submission.studentName}</p>
-          <p><strong>نوع النشاط:</strong> {submission.eventName}</p>
-          <p><strong>وصف النشاط:</strong> {submission.description}</p>
-          <p><strong>اسم الجهة المنظمة:</strong> {submission.organization}</p>
-          <p><strong>التاريخ:</strong> {submission.date}</p>
-          <p><strong>الوقت:</strong> من {submission.fromTime} إلى {submission.toTime}</p>
-          <p><strong>المكان:</strong> {submission.location}</p>
-          <p><strong>الجمهور المستهدف:</strong> {submission.audience}</p>
-          <p><strong>الخدمات المطلوبة:</strong> {submission.services.join("، ")}</p>
-          <p><strong>اسم مشرف النشاط:</strong> {submission.supervisor}</p>
-          <p><strong>الرقم الجامعي:</strong> {submission.studentId}</p>
-          <p><strong>الحالة الحالية:</strong> {submission.status}</p>
-        </div>
-        <button onClick={() => navigate("/home")}>🔙 العودة</button>
+      <Header username="د. عبدالله" />
+      <main className="request-form-wrapper">
+        {!submission ? (
+          <div className="submission-message">
+            <p className="not-found">Submission not found</p>
+            <button className="back-btn" onClick={() => navigate("/doctor-home")}>🔙 Back to Home</button>
+          </div>
+        ) : (
+          <div className="request-form-container">
+            <h2>View Student Activity Request</h2>
+            <form>
+              <label>Student Name:</label>
+              <input type="text" value={submission.studentName} disabled />
+
+              <label>Activity Type:</label>
+              <input type="text" value={submission.name} disabled />
+
+              <label>Description:</label>
+              <textarea value={submission.description} disabled />
+
+              <label>Organization:</label>
+              <input type="text" value={submission.organization} disabled />
+
+              <label>Date:</label>
+              <input type="date" value={submission.date} disabled />
+
+              <label>Time:</label>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <div style={{ flex: 1 }}>
+                  From:
+                  <input type="time" value={submission.fromTime} disabled />
+                </div>
+                <div style={{ flex: 1 }}>
+                  To:
+                  <input type="time" value={submission.toTime} disabled />
+                </div>
+              </div>
+
+              <label>Location:</label>
+              <input type="text" value={submission.location} disabled />
+
+              <label>Audience:</label>
+              <textarea value={submission.audience} disabled />
+
+              <label>Services:</label>
+              {submission.services.map((srv: string, idx: number) => (
+                <input key={idx} type="text" value={srv} disabled />
+              ))}
+
+              <label>Supervisor Name:</label>
+              <input type="text" value={submission.supervisor} disabled />
+
+              <label>Student ID:</label>
+              <input type="text" value={submission.studentId} disabled />
+
+              <label>Status:</label>
+              <input type="text" value={submission.status} disabled />
+            </form>
+
+            <button className="back-btn" onClick={() => navigate("/doctor-home")}>🔙 Back to Home</button>
+          </div>
+        )}
       </main>
     </div>
   );
