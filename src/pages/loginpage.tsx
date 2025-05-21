@@ -12,19 +12,6 @@ const LoginPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ===== Simulated Login Logic =====
-    const role = username.startsWith("dr.") ? "doctor" : "student";
-    localStorage.setItem("userRole", role);
-    localStorage.setItem("user", JSON.stringify({ email: username, occupation: role.toUpperCase() }));
-
-    if (role === "doctor") {
-      navigate("/doctor-home");
-    } else {
-      navigate("/home");
-    }
-
-    // ===== Original Backend Login Logic (Commented Out) =====
-    /*
     try {
       const response = await fetch("http://localhost:8081/api/auth/login", {
         method: "POST",
@@ -44,7 +31,6 @@ const LoginPage: React.FC = () => {
       console.error("Login error:", error);
       alert("فشل تسجيل الدخول. يرجى التحقق من المعلومات.");
     }
-    */
   };
 
   return (
@@ -75,7 +61,7 @@ const LoginPage: React.FC = () => {
 
                 <form onSubmit={handleSubmit}>
                   <div className="form-element form-stack input-icon-group">
-                    <label htmlFor="username-login" className="form-label">Username</label>
+                    <label htmlFor="username-login" className="form-label">Email</label>
                     <div className="input-wrapper">
                       <i className="ri-user-line"></i>
                       <input
