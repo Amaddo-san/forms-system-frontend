@@ -12,12 +12,6 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // TEMPORARY: Skip backend and navigate directly to homepage
-    localStorage.setItem("userRole", "student"); // You can change to "doctor" if needed
-    navigate("/home");
-
-    // === Original Backend Login Code (Commented Out) ===
-    /*
     try {
       const response = await fetch("http://localhost:8081/api/auth/login", {
         method: "POST",
@@ -37,7 +31,6 @@ const LoginPage: React.FC = () => {
       console.error("Login error:", error);
       alert("فشل تسجيل الدخول. يرجى التحقق من المعلومات.");
     }
-    */
   };
 
   return (
@@ -66,7 +59,7 @@ const LoginPage: React.FC = () => {
                 <h2>Login</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="form-element form-stack input-icon-group">
-                    <label htmlFor="username-login" className="form-label">Username</label>
+                    <label htmlFor="username-login" className="form-label">Email</label>
                     <div className="input-wrapper">
                       <i className="ri-user-line"></i>
                       <input
