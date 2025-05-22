@@ -1,77 +1,40 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import ConfirmModal from "../components/ConfirmModal";
-import Sidebar from "../components/Sidebar"; // Sidebar
+import Sidebar from "../components/Sidebar";
 import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
-
-// import { ActivityForm } from "../models/ActivityForm";
-// import { ActivityFormService } from "../services/ActivityFormService";
+import { ActivityFormService } from "../services/ActivityFormService";
 
 const statuses = ["ALL", "Under Review", "Approved", "Rejected"];
 
 const HomePage: React.FC = () => {
-  // Dummy data for now
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [submissions, setSubmissions] = useState<any[]>([
-    {
-      id: "1",
-      activityType: "Event A",
-      activityDate: "2025-05-20",
-      status: "Approved",
-    },
-    {
-      id: "2",
-      activityType: "Workshop B",
-      activityDate: "2025-05-18",
-      status: "Under Review",
-    },
-  ]);
-
+  const [submissions, setSubmissions] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [itemsPerPage] = useState(4);
   const [selectedStatus, setSelectedStatus] = useState("ALL");
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const userData = localStorage.getItem("user");
   const user = userData ? JSON.parse(userData) : null;
   const username = user ? user.firstName : "User";
-
   const navigate = useNavigate();
 
-  /*
-  // === Original Backend Fetch Logic ===
   useEffect(() => {
-    const fetchSubmissions = async () => {
+    const fetchPage = async () => {
       try {
-        const data = await ActivityFormService.getAll();
-        setSubmissions(data);
+        const res = await ActivityFormService.getPaginated(currentPage - 1, itemsPerPage);
+        setSubmissions(res.content);
+        setTotalPages(res.totalPages);
       } catch (error) {
         console.error("Failed to fetch submissions:", error);
       }
     };
-    fetchSubmissions();
-  }, []);
-  */
-
-  const filteredSubmissions = submissions.filter((s) => {
-  const matchesStatus = selectedStatus === "ALL" || s.status === selectedStatus;
-  const searchLower = searchQuery.toLowerCase();
-  const matchesSearch =
-    s.activityType.toLowerCase().includes(searchLower) ||
-    s.status.toLowerCase().includes(searchLower) ||
-    s.activityDate.includes(searchLower);
-
-  return matchesStatus && matchesSearch;
-});
-
-  const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage);
-  const currentData = filteredSubmissions.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+    fetchPage();
+  }, [currentPage, itemsPerPage]);
 
   const openDeleteModal = (id: string) => {
     setDeleteId(id);
@@ -79,42 +42,11 @@ const HomePage: React.FC = () => {
   };
 
   const confirmDelete = async () => {
-    /*
-    if (deleteId !== null) {
-      try {
-        const toDelete = submissions.find((s) => s.id === deleteId);
-        if (toDelete) {
-          await ActivityFormService.delete(toDelete);
-          setSubmissions((prev) => prev.filter((s) => s.id !== deleteId));
-        }
-      } catch (error) {
-        console.error("Error deleting submission:", error);
-      }
-    }
-    */
-    // TEMP: simulate delete
     if (deleteId !== null) {
       setSubmissions((prev) => prev.filter((s) => s.id !== deleteId));
     }
     setModalOpen(false);
   };
-  
-  const handleNewFormRequest = () => {
-  const updated = submissions.map((s) => ({
-    ...s,
-    id: (parseInt(s.id) + 1).toString(),
-  }));
-
-  const newForm = {
-    id: "1",
-    activityType: "New Request",
-    activityDate: new Date().toISOString().split("T")[0],
-    status: "Under Review",
-  };
-
-  setSubmissions([newForm, ...updated]);
-};
-
 
   return (
     <>
@@ -125,85 +57,84 @@ const HomePage: React.FC = () => {
         <div className="home-page" style={{ marginLeft: "220px", width: "100%" }}>
           <h2 className="section-title">Activity History</h2>
 
-<div className="table-controls">
-  <input
-    type="text"
-    placeholder="Search by name, status, or date..."
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-  />
+          <div className="table-controls">
+            <input
+              type="text"
+              placeholder="Search by name, status, or date..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              disabled // can re-enable once server-side search is added
+            />
 
-  <div className="filter-bar">
-    <label htmlFor="status-filter">Filter by status:</label>
-    <select
-      id="status-filter"
-      value={selectedStatus}
-      onChange={(e) => {
-        setSelectedStatus(e.target.value);
-        setCurrentPage(1);
-      }}
-    >
-      {statuses.map((status) => (
-        <option key={status} value={status}>{status}</option>
-      ))}
-    </select>
-  </div>
-</div>
+            <div className="filter-bar">
+              <label htmlFor="status-filter">Filter by status:</label>
+              <select
+                id="status-filter"
+                value={selectedStatus}
+                onChange={(e) => {
+                  setSelectedStatus(e.target.value);
+                  setCurrentPage(1);
+                }}
+                disabled // can re-enable once backend supports filtering
+              >
+                {statuses.map((status) => (
+                  <option key={status} value={status}>{status}</option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-          {/* Table Design */}
-          
           <table className="activity-table0">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>#</th>
                 <th>Event Name</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
-<tbody>
-  {currentData.map((item, index) => (
-    <tr
-      key={item.id}
-      onClick={() => navigate(`/submission/${item.id}`)}
-      style={{ cursor: "pointer" }}
-    >
-      <td>{index + 1}</td>
-      <td>{item.activityType}</td>
-      <td>{item.activityDate}</td>
-      <td>
-        <span className={`status-label ${item.status.toLowerCase().replace(" ", "-")}`}>
-          {item.status}
-        </span>
-      </td>
-      <td className="table-actions0">
-        <button
-          onClick={(e) => {
-            e.stopPropagation(); // ⛔ prevent row click
-            console.log("Edit", item.id);
-          }}
-        >
-          <i className="ri-pencil-line"></i>
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation(); // ⛔ prevent row click
-            openDeleteModal(item.id!);
-          }}
-        >
-          <i className="ri-delete-bin-line"></i>
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+            <tbody>
+              {submissions.map((item, index) => (
+                <tr
+                  key={item.id}
+                  onClick={() => navigate(`/submission/${item.uuid}`)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+                  <td>{item.activityType}</td>
+                  <td>{item.activityDate}</td>
+                  <td>
+                    <span className={`status-label ${item.status?.toLowerCase().replace(" ", "-")}`.trim()}>
+                      {item.status}
+                    </span>
+                  </td>
+                  <td className="table-actions0">
+                    <button
+                      className="edit-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/submission/${item.uuid}`);
+                      }}
+                    >
+                      <i className="ri-pencil-line"></i> View
+                    </button>
+                    <button
+                      className="delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDeleteModal(item.id!);
+                      }}
+                    >
+                      <i className="ri-delete-bin-line"></i> Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
 
-          
-
-          {currentData.length === 0 && (
+          {submissions.length === 0 && (
             <p className="no-results">No results found.</p>
           )}
 

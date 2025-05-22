@@ -19,6 +19,16 @@ export const ActivityFormService = {
 
     },
 
+    async getById(id: string): Promise<ActivityForm> {
+        const response = await axios.get(`${BASE_URL}/${id}`);
+        return response.data;
+    },
+
+    async getByUuid(uuid: string): Promise<ActivityForm> {
+        const response = await axios.get(`${BASE_URL}/uuid/${uuid}`);
+        return response.data;
+    },
+
     async updateStatus(form: ActivityForm) {
         const response = await axios.post(`${BASE_URL}/update-status`, form, {
             headers: { "Content-Type": "application/json" }
@@ -30,7 +40,20 @@ export const ActivityFormService = {
         const response = await axios.delete(`${BASE_URL}/delete`, {
             data: form,
             headers: { "Content-Type": "application/json" }
-        }as any );
+        } as any);
+        return response.data;
+    },
+
+    async getPaginated(page: number, size: number): Promise<{
+        content: ActivityForm[];
+        totalPages: number;
+        totalElements: number;
+        number: number; // current page index
+    }> {
+        const response = await axios.get(`${BASE_URL}/paginated`, {
+            params: { page, size }
+        });
         return response.data;
     }
+
 };

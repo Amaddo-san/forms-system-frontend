@@ -1,0 +1,49 @@
+export enum Status {
+    NEW = "NEW",
+    MODIFICATION = "MODIFICATION",
+    APPROVED = "APPROVED",
+    REJECTED = "REJECTED",
+    RECEIVED = "RECEIVED",
+    PENDING_SUPERVISOR_REVIEW = "PENDING_SUPERVISOR_REVIEW",
+    SUPERVISOR_APPROVED = "SUPERVISOR_APPROVED",
+    SUPERVISOR_REJECTED = "SUPERVISOR_REJECTED",
+    PENDING_FACULTY_REVIEW = "PENDING_FACULTY_REVIEW",
+    FACULTY_REVIEWED = "FACULTY_REVIEWED",
+    FACULTY_APPROVED = "FACULTY_APPROVED",
+    FACULTY_REJECTED = "FACULTY_REJECTED",
+    PENDING_UNION_REVIEW = "PENDING_UNION_REVIEW",
+    UNION_REVIEWED = "UNION_REVIEWED",
+    INVESTMENT_CENTER_REVIEW = "INVESTMENT_CENTER_REVIEW",
+    INVESTMENT_CENTER_APPROVED = "INVESTMENT_CENTER_APPROVED",
+    INVESTMENT_CENTER_REJECTED = "INVESTMENT_CENTER_REJECTED",
+    PENDING_DEANSHIP_REVIEW = "PENDING_DEANSHIP_REVIEW",
+    DEANSHIP_APPROVED = "DEANSHIP_APPROVED",
+    DEANSHIP_REJECTED = "DEANSHIP_REJECTED"
+}
+
+export const statusLabels: Record<Status, string> = {
+    [Status.NEW]: "جديد",
+    [Status.MODIFICATION]: "تعديل",
+    [Status.APPROVED]: "تمت الموافقة",
+    [Status.REJECTED]: "مرفوض",
+    [Status.RECEIVED]: "تم الاستلام",
+    [Status.PENDING_SUPERVISOR_REVIEW]: "بانتظار مراجعة المشرف",
+    [Status.SUPERVISOR_APPROVED]: "تمت الموافقة من المشرف",
+    [Status.SUPERVISOR_REJECTED]: "تم الرفض من المشرف",
+    [Status.PENDING_FACULTY_REVIEW]: "بانتظار مراجعة الكلية",
+    [Status.FACULTY_REVIEWED]: "تمت مراجعة الكلية",
+    [Status.FACULTY_APPROVED]: "تمت الموافقة من الكلية",
+    [Status.FACULTY_REJECTED]: "تم الرفض من الكلية",
+    [Status.PENDING_UNION_REVIEW]: "بانتظار مراجعة الاتحاد",
+    [Status.UNION_REVIEWED]: "تمت مراجعة الاتحاد",
+    [Status.INVESTMENT_CENTER_REVIEW]: "مراجعة مركز الاستثمار",
+    [Status.INVESTMENT_CENTER_APPROVED]: "موافقة مركز الاستثمار",
+    [Status.INVESTMENT_CENTER_REJECTED]: "رفض مركز الاستثمار",
+    [Status.PENDING_DEANSHIP_REVIEW]: "بانتظار مراجعة العمادة",
+    [Status.DEANSHIP_APPROVED]: "تمت الموافقة من العمادة",
+    [Status.DEANSHIP_REJECTED]: "تم الرفض من العمادة"
+};
+
+export const getStatusLabel = (status: string): string => {
+    return statusLabels[status as Status] || "غير معروف";
+};

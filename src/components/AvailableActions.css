@@ -1,0 +1,49 @@
+.actions-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.action-spacer {
+    flex-grow: 1;
+}
+
+.action-tag {
+    width: 140px;
+    text-align: center;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.action-tag:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Green for approve */
+.approve {
+    background-color: #22c55e;
+}
+
+.approve:hover {
+    background-color: #16a34a;
+}
+
+/* Red for reject */
+.reject {
+    background-color: #ef4444;
+}
+
+.reject:hover {
+    background-color: #dc2626;
+}

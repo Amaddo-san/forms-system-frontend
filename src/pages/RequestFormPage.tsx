@@ -91,19 +91,19 @@ const RequestFormPage: React.FC = () => {
       loggedInUser.occupation as Occupation
     );
 
-    const activityForm = new ActivityForm(
-      "NEW",
-      user,
-      supervisor,
-      activityType,
-      date,
-      organization,
-      location,
-      `${date}T${fromTime}`,
-      `${date}T${toTime}`,
-      user.phoneNumber,
-      description
-    );
+    const activityForm = new ActivityForm({
+      status: "NEW",
+      student: user,
+      supervisorName: supervisor,
+      activityType: activityType,
+      activityDate: date,
+      organizingEntity: organization,
+      location: location,
+      startTime: `${date}T${fromTime}`,
+      endTime: `${date}T${toTime}`,
+      phoneNumber: user.phoneNumber,
+      description: description
+    });
 
     try {
       await ActivityFormService.submit(activityForm);
@@ -140,112 +140,126 @@ const RequestFormPage: React.FC = () => {
         <div style={{ flex: 1, padding: "20px", overflowY: "auto", maxHeight: "calc(100vh - 64px)" }}>
           <main className="request-form-wrapper">
             <div className="request-form-container">
-              <h2>نموذج طلب إقامة نشاط</h2>
-              <form onSubmit={handleSubmit}>
-                <label>نوع النشاط:</label>
-                <div className="activity-type-group">
-                  {["مبادرة", "محاضرة", "دورة تدريبية", "ورشة", "معرض", "مسابقة"].map((type) => (
-                    <div key={type} className="activity-type-option">
+              {submissionResult === "success" ? (
+                <>
+                  <h2>✅ تم إرسال الطلب بنجاح</h2>
+                  <p style={{ marginBottom: "20px" }}>
+                    شكراً لك! سيتم مراجعة طلبك من قبل الإدارة.
+                  </p>
+                  <button className="back-btn" onClick={() => navigate("/home")}>
+                    العودة إلى الصفحة الرئيسية
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2>نموذج طلب إقامة نشاط</h2>
+                  <form onSubmit={handleSubmit}>
+                    <label>نوع النشاط:</label>
+                    <div className="activity-type-group">
+                      {["مبادرة", "محاضرة", "دورة تدريبية", "ورشة", "معرض", "مسابقة"].map((type) => (
+                        <div key={type} className="activity-type-option">
+                          <input
+                            type="radio"
+                            name="activityType"
+                            id={type}
+                            value={type}
+                            checked={activityType === type}
+                            onChange={(e) => setActivityType(e.target.value)}
+                            required
+                          />
+                          <label htmlFor={type}>{type}</label>
+                        </div>
+                      ))}
+                    </div>
+
+                    <label>وصف النشاط:</label>
+                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
+
+                    <label>اسم الجهة المنظمة:</label>
+                    <input type="text" value={organization} onChange={(e) => setOrganization(e.target.value)} required />
+
+                    <label>تاريخ النشاط:</label>
+                    <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+
+                    <label>الوقت:</label>
+                    <div>
+                      من <input type="time" value={fromTime} onChange={(e) => setFromTime(e.target.value)} required />
+                      إلى <input type="time" value={toTime} onChange={(e) => setToTime(e.target.value)} required />
+                    </div>
+
+                    <label>مكان إقامة النشاط:</label>
+                    <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+
+                    <label>الجمهور المستهدف:</label>
+                    <textarea value={audience} onChange={(e) => setAudience(e.target.value)} required />
+
+                    <label>الخدمات المطلوبة:</label>
+                    {services.map((service, index) => (
                       <input
-                        type="radio"
-                        name="activityType"
-                        id={type}
-                        value={type}
-                        checked={activityType === type}
-                        onChange={(e) => setActivityType(e.target.value)}
+                        key={index}
+                        type="text"
+                        value={service}
+                        onChange={(e) => handleServiceChange(index, e.target.value)}
                         required
                       />
-                      <label htmlFor={type}>{type}</label>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                    <button type="button" onClick={addServiceField}>إضافة خدمة</button>
 
-                <label>وصف النشاط:</label>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
+                    <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>بيانات المشرف</h4>
+                    <label>اسم مشرف النشاط:</label>
+                    <input
+                      type="text"
+                      list="professor-options"
+                      value={supervisor}
+                      onChange={(e) => handleSupervisorChange(e.target.value)}
+                      required
+                    />
+                    <datalist id="professor-options">
+                      {professors.map((prof) => (
+                        <option key={prof.id} value={`${prof.firstName} ${prof.middleName} ${prof.lastName}`} />
+                      ))}
+                    </datalist>
 
-                <label>اسم الجهة المنظمة:</label>
-                <input type="text" value={organization} onChange={(e) => setOrganization(e.target.value)} required />
+                    {selectedProfessor && (
+                      <>
+                        <label>الرقم الجامعي للمشرف:</label>
+                        <input type="text" disabled value={selectedProfessor.universityId} />
+                        <label>كلية المشرف:</label>
+                        <input type="text" disabled value={selectedProfessor.faculty} />
+                      </>
+                    )}
 
-                <label>تاريخ النشاط:</label>
-                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+                    <hr style={{ marginTop: "15px", marginBottom: "10px", border: "none", height: "2px", color: "grey" }} />
+                    <h4>بيانات الطالب</h4>
+                    <label>الرقم الجامعي:</label>
+                    <input
+                      type="text"
+                      list="student-options"
+                      value={studentId}
+                      onChange={(e) => handleStudentIdChange(e.target.value)}
+                      required
+                    />
+                    <datalist id="student-options">
+                      {students.map((s) => (
+                        <option key={s.id} value={s.universityId}>
+                          {s.universityId} - {s.firstName} {s.lastName}
+                        </option>
+                      ))}
+                    </datalist>
 
-                <label>الوقت:</label>
-                <div>
-                  من <input type="time" value={fromTime} onChange={(e) => setFromTime(e.target.value)} required />
-                  إلى <input type="time" value={toTime} onChange={(e) => setToTime(e.target.value)} required />
-                </div>
+                    {selectedStudent && (
+                      <>
+                        <label>اسم الطالب:</label>
+                        <input type="text" disabled value={`${selectedStudent.firstName} ${selectedStudent.middleName} ${selectedStudent.lastName}`} />
+                        <label>كلية الطالب:</label>
+                        <input type="text" disabled value={selectedStudent.faculty} />
+                      </>
+                    )}
 
-                <label>مكان إقامة النشاط:</label>
-                <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
-
-                <label>الجمهور المستهدف:</label>
-                <textarea value={audience} onChange={(e) => setAudience(e.target.value)} required />
-
-                <label>الخدمات المطلوبة:</label>
-                {services.map((service, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    value={service}
-                    onChange={(e) => handleServiceChange(index, e.target.value)}
-                    required
-                  />
-                ))}
-                <button type="button" onClick={addServiceField}>إضافة خدمة</button>
-
-                <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>بيانات المشرف</h4>
-                <label>اسم مشرف النشاط:</label>
-                <input
-                  type="text"
-                  list="professor-options"
-                  value={supervisor}
-                  onChange={(e) => handleSupervisorChange(e.target.value)}
-                  required
-                />
-                <datalist id="professor-options">
-                  {professors.map((prof) => (
-                    <option key={prof.id} value={`${prof.firstName} ${prof.middleName} ${prof.lastName}`} />
-                  ))}
-                </datalist>
-
-                {selectedProfessor && (
-                  <>
-                    <label>الرقم الجامعي للمشرف:</label>
-                    <input type="text" disabled value={selectedProfessor.universityId} />
-                    <label>كلية المشرف:</label>
-                    <input type="text" disabled value={selectedProfessor.faculty} />
-                  </>
-                )}
-
-                <hr style={{ marginTop: "15px", marginBottom: "10px", border: "none", height: "2px", color: "grey" }} />
-                <h4>بيانات الطالب</h4>
-                <label>الرقم الجامعي:</label>
-                <input
-                  type="text"
-                  list="student-options"
-                  value={studentId}
-                  onChange={(e) => handleStudentIdChange(e.target.value)}
-                  required
-                />
-                <datalist id="student-options">
-                  {students.map((s) => (
-                    <option key={s.id} value={s.universityId}>
-                      {s.universityId} - {s.firstName} {s.lastName}
-                    </option>
-                  ))}
-                </datalist>
-
-                {selectedStudent && (
-                  <>
-                    <label>اسم الطالب:</label>
-                    <input type="text" disabled value={`${selectedStudent.firstName} ${selectedStudent.middleName} ${selectedStudent.lastName}`} />
-                    <label>كلية الطالب:</label>
-                    <input type="text" disabled value={selectedStudent.faculty} />
-                  </>
-                )}
-
-                <button type="submit">إرسال الطلب</button>
-              </form>
+                    <button type="submit">إرسال الطلب</button>
+                  </form>
+                </>
+              )}
             </div>
           </main>
         </div>

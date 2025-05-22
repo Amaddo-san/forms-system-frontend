@@ -1,0 +1,41 @@
+.action-bar-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 40px 0 40px;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    /* ✅ matches the form */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    /* optional, to separate it from background */
+    /* border-bottom: 1px solid #e5e5e5; */
+    /* optional line like a nav bar */
+}
+
+
+
+/* .action-bar-title {
+    margin: 0;
+    font-size: 18px;
+    color: #1e293b;
+    font-weight: bold;
+} */
+
+.action-bar-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* .action-bar-actions button {
+    background-color: #1e40af;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.action-bar-actions button:hover {
+    background-color: #3b82f6;
+} */
