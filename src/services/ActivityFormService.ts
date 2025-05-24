@@ -1,11 +1,12 @@
-import axios from "axios";
+import instance from "../config/AxiosConfig";
 import { ActivityForm } from "../models/ActivityForm";
+import { ActivityFormLog } from "../models/ActivityFormLog";
 
 const BASE_URL = "http://localhost:8081/api/activity-forms";
 
 export const ActivityFormService = {
     async submit(form: ActivityForm) {
-        const response = await axios.post(BASE_URL, form, {
+        const response = await instance.post(BASE_URL, form, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -14,30 +15,29 @@ export const ActivityFormService = {
     },
 
     async getAll(): Promise<ActivityForm[]> {
-        const response = await axios.get<ActivityForm[]>(`${BASE_URL}/get-all`);
+        const response = await instance.get<ActivityForm[]>(`${BASE_URL}/get-all`);
         return response.data;
-
     },
 
     async getById(id: string): Promise<ActivityForm> {
-        const response = await axios.get(`${BASE_URL}/${id}`);
+        const response = await instance.get(`${BASE_URL}/${id}`);
         return response.data;
     },
 
     async getByUuid(uuid: string): Promise<ActivityForm> {
-        const response = await axios.get(`${BASE_URL}/uuid/${uuid}`);
+        const response = await instance.get(`${BASE_URL}/uuid/${uuid}`);
         return response.data;
     },
 
     async updateStatus(form: ActivityForm) {
-        const response = await axios.post(`${BASE_URL}/update-status`, form, {
+        const response = await instance.post(`${BASE_URL}/update-status`, form, {
             headers: { "Content-Type": "application/json" }
         });
         return response.data;
     },
 
     async delete(form: ActivityForm) {
-        const response = await axios.delete(`${BASE_URL}/delete`, {
+        const response = await instance.delete(`${BASE_URL}/delete`, {
             data: form,
             headers: { "Content-Type": "application/json" }
         } as any);
@@ -48,12 +48,16 @@ export const ActivityFormService = {
         content: ActivityForm[];
         totalPages: number;
         totalElements: number;
-        number: number; // current page index
+        number: number;
     }> {
-        const response = await axios.get(`${BASE_URL}/paginated`, {
+        const response = await instance.get(`${BASE_URL}/paginated`, {
             params: { page, size }
         });
         return response.data;
-    }
+    },
 
+    async getLogsByUuid(uuid: string): Promise<ActivityFormLog[]> {
+        const response = await instance.get(`${BASE_URL}/${uuid}/logs`);
+        return response.data;
+    }
 };

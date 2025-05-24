@@ -24,6 +24,8 @@ const LoginPage: React.FC = () => {
       if (!response.ok) throw new Error("Login failed");
 
       const data = await response.json();
+      console.log("Login response:", data);
+
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/");

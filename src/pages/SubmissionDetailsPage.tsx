@@ -2,24 +2,30 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import AvailableActions from "../components/AvailableActions";
-import "./RequestFormPage.css";
+import ActionBar from "../components/ActionBar";
 import { ActivityFormService } from "../services/ActivityFormService";
 import { ActivityForm } from "../models/ActivityForm";
-import ActionBar from "../components/ActionBar";
 import { getStatusLabel } from "../models/Status";
+import { ActivityFormLog } from "../models/ActivityFormLog";
+import "./RequestFormPage.css";
+import "../components/LogsSidebar.css";
+import LogsSidebar from "../components/LogsSideBar";
 
 const SubmissionDetailsPage: React.FC = () => {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const [submission, setSubmission] = useState<ActivityForm | null>(null);
+  const [logs, setLogs] = useState<ActivityFormLog[]>([]);
+  const [showLogs, setShowLogs] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (uuid) {
-          const data = await ActivityFormService.getByUuid(uuid);
-          setSubmission(data);
+          const form = await ActivityFormService.getByUuid(uuid);
+          const history = await ActivityFormService.getLogsByUuid(uuid);
+          setSubmission(form);
+          setLogs(history);
         }
       } catch (error) {
         console.error("Failed to load submission:", error);
@@ -28,22 +34,28 @@ const SubmissionDetailsPage: React.FC = () => {
     fetchData();
   }, [uuid]);
 
+  const toggleLogs = () => setShowLogs(!showLogs);
+
   return (
     <div>
       <Header username="الطالب" />
       <div style={{ display: "flex" }}>
         <Sidebar />
 
-        {/* ✅ Scrollable area with action bar + form content */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", height: "calc(100vh - 64px)", minHeight: "calc(100vh - 64px)" }}>
-          {/* ✅ Action buttons aligned to form width */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", height: "calc(100vh - 64px)", overflow: "hidden" }}>
           {submission && (
-            <ActionBar
-            actions={submission.availableActions}
-            currentStatus={submission.status || ""}
-          />
+            <>
+              <div className="action-bar-container">
+                <ActionBar
+                  actions={submission.availableActions}
+                  currentStatus={submission.status || ""}
+                />
+                <button className="logs-toggle-btn" onClick={toggleLogs}>
+                  السجل
+                </button>
+              </div>
+            </>
           )}
-
 
           <main className="request-form-wrapper">
             {!submission ? (
@@ -119,6 +131,14 @@ const SubmissionDetailsPage: React.FC = () => {
           </main>
         </div>
       </div>
+
+
+      <LogsSidebar
+        isOpen={showLogs}
+        onClose={toggleLogs}
+        logs={logs}
+      />
+
     </div>
   );
 };

@@ -1,21 +1,21 @@
-import axios from "axios";
+import instance from "../config/AxiosConfig";  // 👈 correct import of your custom instance
 import { User } from "../models/User";
 
-const API_URL = "http://localhost:8081/api/users"; // Adjust if your base URL is different
+const API_URL = "/api/users"; // baseURL is already set in axios-instance
 
 export const UserService = {
     async searchProfessorsByName(keyword: string): Promise<User[]> {
-        const response = await axios.get<User[]>(`${API_URL}/search/by-occupation`, {
+        const response = await instance.get<User[]>(`${API_URL}/search/by-occupation`, {
             params: {
-                occupation: "PROFESSOR", // fixed filter
-                keyword, // backend should handle partial match
+                occupation: "PROFESSOR",
+                keyword,
             },
         });
         return response.data;
     },
 
     async searchStudentsByUniversityId(keyword: string): Promise<User[]> {
-        const response = await axios.get<User[]>(`${API_URL}/search/by-university-id`, {
+        const response = await instance.get<User[]>(`${API_URL}/search/by-university-id`, {
             params: {
                 keyword,
             },
