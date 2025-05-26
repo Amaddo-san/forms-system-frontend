@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./Header.css";
 import logo from "../assets/uoj-logo.png";
 import { logout } from "../services/LogoutService";
-import RequestFormPage from "../pages/RequestFormPage";
 
 type Props = {
   username: string;
@@ -23,6 +22,13 @@ const Header: React.FC<Props> = ({ username }) => {
         <span>
           <i className="ri-user-line"></i> @{username}
         </span>
+
+        {/* ✅ Mobile-only links */}
+        <div className="mobile-links">
+          <a href="/home"><i className="ri-home-line"></i> Home</a>
+          <a href="/request-form"><i className="ri-file-add-line"></i> Request Form</a>
+        </div>
+
         <button className="logout-link" onClick={logout}>
           <i className="ri-logout-box-line"></i> Logout
         </button>

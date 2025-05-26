@@ -136,6 +136,10 @@
   background-color: #ff9800;
 }
 
+.status-label.new {
+  background-color: #2196f3; 
+}
+
 /* Table action buttons */
 .table-actions0 {
   display: flex;
@@ -176,16 +180,50 @@
   justify-content: flex-start;
   margin: 12px 0 20px 8px;
 }
-
 .table-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
   padding: 0 15px;
   margin-bottom: 20px;
-  flex-wrap: wrap; /* allows it to stack on small screens */
+  flex-wrap: wrap;
 }
+
+/* Style for the search input */
+.table-controls input[type="text"] {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  flex: 1;
+  min-width: 240px;
+  max-width: 400px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Style the filter bar consistently */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-bar label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+.filter-bar select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+
 
 .table-controls input[type="text"] {
   padding: 8px 12px;
@@ -195,4 +233,84 @@
   flex: 1;
   max-width: 300px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+
+@media (max-width: 768px) {
+  .home-page {
+    padding: 20px 12px;
+    margin-left: 0 !important;
+  }
+
+  .section-title {
+    font-size: 20px;
+    padding-left: 10px;
+  }
+
+  .table-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-bar {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0;
+  }
+
+  .activity-table0 {
+    font-size: 12px;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .table-actions0 {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+   .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-bar {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .table-controls input[type="text"] {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-page {
+    max-width: 1400px;
+    margin-left: 260px; /* match Sidebar width */
+    padding: 40px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .activity-table0 {
+    font-size: 15px;
+  }
+
+  .table-actions0 button {
+    font-size: 15px;
+    padding: 8px 14px;
+  }
+
+  
 }

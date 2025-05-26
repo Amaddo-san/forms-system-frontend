@@ -38,9 +38,38 @@
 }
 
 .log-entry {
-    border-bottom: 1px solid #ddd;
-    padding: 12px 0;
+  background-color: #f9fafb;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  direction: rtl;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease;
 }
+
+.log-entry:hover {
+  background-color: #f1f5f9;
+}
+
+.log-entry div {
+  margin-bottom: 6px;
+}
+
+.log-entry strong {
+  color: #1e293b;
+}
+
+.log-time {
+  font-size: 12px;
+  color: #6b7280;
+  text-align: left;
+  margin-top: 10px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 6px;
+}
+
 
 .log-time {
     font-size: 12px;

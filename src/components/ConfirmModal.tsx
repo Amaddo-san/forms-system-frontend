@@ -13,10 +13,10 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ message, onConfirm, onCance
       <div className="confirm-modal">
         <p>{message}</p>
         <div className="modal-buttons">
-          <button className="cancel-btn" onClick={onCancel}>
+          <button className="cancel-btn0" onClick={onCancel}>
             Cancel
           </button>
-          <button className="confirm-btn" onClick={onConfirm}>
+          <button className="confirm-btn0" onClick={onConfirm}>
             Confirm
           </button>
         </div>

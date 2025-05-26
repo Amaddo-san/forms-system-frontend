@@ -7,7 +7,7 @@ import { ActivityFormService } from "../services/ActivityFormService";
 import { ActivityForm } from "../models/ActivityForm";
 import { getStatusLabel } from "../models/Status";
 import { ActivityFormLog } from "../models/ActivityFormLog";
-import "./RequestFormPage.css";
+import "./SubmissionDetailsPage.css";
 import "../components/LogsSidebar.css";
 import LogsSidebar from "../components/LogsSideBar";
 

@@ -8,6 +8,7 @@ instance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("token");
         if (token) {
+            config.headers = config.headers || {}; // ✅ Fix: ensure headers is not undefined
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;

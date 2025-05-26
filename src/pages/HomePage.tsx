@@ -6,7 +6,7 @@ import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 import { ActivityFormService } from "../services/ActivityFormService";
 
-const statuses = ["ALL", "Under Review", "Approved", "Rejected"];
+const statuses = ["ALL", "NEW","Under Review", "Approved", "Rejected"];
 
 const HomePage: React.FC = () => {
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -23,18 +23,37 @@ const HomePage: React.FC = () => {
   const username = user ? user.firstName : "User";
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchPage = async () => {
-      try {
-        const res = await ActivityFormService.getPaginated(currentPage - 1, itemsPerPage);
-        setSubmissions(res.content);
-        setTotalPages(res.totalPages);
-      } catch (error) {
-        console.error("Failed to fetch submissions:", error);
+useEffect(() => {
+  const fetchAndFilter = async () => {
+    try {
+      const res = await ActivityFormService.getPaginated(currentPage - 1, itemsPerPage);
+      let data = res.content;
+
+      // Filter by status if selected (skip "ALL")
+      if (selectedStatus !== "ALL") {
+        data = data.filter(item => item.status === selectedStatus);
       }
-    };
-    fetchPage();
-  }, [currentPage, itemsPerPage]);
+
+      // Apply search (basic lowercase match)
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        data = data.filter(item =>
+          item.activityType?.toLowerCase().includes(query) ||
+          item.status?.toLowerCase().includes(query) ||
+          item.activityDate?.toLowerCase().includes(query)
+        );
+      }
+      data.sort((a, b) => (b.id || 0) - (a.id || 0));
+      setSubmissions(data);
+      setTotalPages(res.totalPages); // keep this for now
+    } catch (error) {
+      console.error("Failed to fetch submissions:", error);
+    }
+  };
+
+  fetchAndFilter();
+}, [currentPage, itemsPerPage, searchQuery, selectedStatus]);
+
 
   const openDeleteModal = (id: string) => {
     setDeleteId(id);
@@ -63,7 +82,7 @@ const HomePage: React.FC = () => {
               placeholder="Search by name, status, or date..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              disabled // can re-enable once server-side search is added
+              // can re-enable once server-side search is added
             />
 
             <div className="filter-bar">
@@ -75,7 +94,6 @@ const HomePage: React.FC = () => {
                   setSelectedStatus(e.target.value);
                   setCurrentPage(1);
                 }}
-                disabled // can re-enable once backend supports filtering
               >
                 {statuses.map((status) => (
                   <option key={status} value={status}>{status}</option>
@@ -117,8 +135,7 @@ const HomePage: React.FC = () => {
                         navigate(`/submission/${item.uuid}`);
                       }}
                     >
-                      <i className="ri-pencil-line"></i> View
-                    </button>
+                     <i className="ri-eye-line"></i> View </button>
                     <button
                       className="delete-btn"
                       onClick={(e) => {

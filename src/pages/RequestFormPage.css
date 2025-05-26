@@ -64,7 +64,7 @@
 .activity-type-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 16px;
   margin-top: 10px;
   margin-bottom: 20px;
   direction: rtl;
@@ -72,10 +72,24 @@
 
 .activity-type-option {
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
   gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
+
+.activity-type-option:hover {
+  background-color: #f0f0f0;
+}
+
+.activity-type-option input {
+  cursor: pointer;
+}
+
 
 
 main.request-form-wrapper {
@@ -221,3 +235,94 @@ main.request-form-wrapper {
 .logs-toggle-btn:hover {
   background-color: #1d4ed8;
 }
+
+@media (max-width: 1024px) {
+  .request-form-container {
+    margin-left: 0;
+    padding: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+  }
+
+  .activity-type-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .request-form-container input,
+  .request-form-container textarea {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .request-form-container button,
+  .submission-message button {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .submission-message {
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+
+  .page-actions,
+  .actions-inside-top-right,
+  .actions-floating-bar {
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .logs-toggle-btn {
+    width: 100%;
+  }
+
+  
+}
+
+@media (max-width: 600px) {
+  .request-form-wrapper {
+    padding: 16px;
+  }
+
+  .request-form-container {
+    padding: 20px;
+  }
+
+  .request-form-container h2 {
+    font-size: 20px;
+  }
+
+  .request-form-container input,
+  .request-form-container textarea {
+    font-size: 14px;
+  }
+
+  .back-btn {
+    width: 100%;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+  .activity-type-group {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .activity-type-option {
+    flex: 1 1 calc(50% - 10px);
+    box-sizing: border-box;
+    justify-content: center;
+  }
+
+   .sidebar {
+    display: none;
+  }
+}
+

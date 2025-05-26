@@ -1,9 +1,9 @@
 .request-form-container {
-  background-color: #f8f8f8;
+  background-color: #ffffff;
   padding: 30px;
   margin-top: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2 , );
   direction: rtl;
   font-family: 'Arial', sans-serif;
   margin-left: 160px;
@@ -88,7 +88,7 @@
 }
 
 .submission-message button {
-  background-color: #2e7d32;
+  background-color: #2e537d;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -125,10 +125,87 @@
   font-weight: bold;
   border: none;
   cursor: pointer;
-  margin-right: 20px;
   transition: background-color 0.3s ease;
+  box-shadow: none; 
+  z-index: 1;
+ }
+
+ .action-bar-container {
+  background: transparent;
+  box-shadow: none;
 }
 
 .logs-toggle-btn:hover {
   background-color: #1d4ed8;
+}
+
+@media (max-width: 1024px) {
+  .request-form-wrapper {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .request-form-container {
+    margin-left: 0;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+
+  .request-form-container input,
+  .request-form-container textarea {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .status-badge {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .logs-toggle-btn {
+    width: 100%;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .back-btn {
+    width: 100%;
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .request-form-wrapper {
+    padding: 16px;
+  }
+
+  .request-form-container h2 {
+    font-size: 20px;
+  }
+
+  .request-form-container input,
+  .request-form-container textarea {
+    font-size: 14px;
+  }
+
+  .action-bar-container {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .logs-toggle-btn {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .submission-message {
+    padding: 20px;
+    font-size: 15px;
+  }
+
+  .submission-message button {
+    width: 100%;
+  }
 }

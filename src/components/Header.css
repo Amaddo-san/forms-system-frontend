@@ -11,7 +11,6 @@
   z-index: 100;
 }
 
-
 .logo-section {
   display: flex;
   align-items: center;
@@ -54,15 +53,43 @@
 
 .nav-links a:hover {
   color: #2e7d32;
-  
+}
+
+/* ✅ Styled logout button */
+.logout-link {
+  background: none;
+  border: none;
+  color: #1e293b; /* default dark */
+  font-size: 15px;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.logout-link:hover {
+  color: #c62828; 
+  transform: translateY(-2px);
 }
 
 
+
+/* Hamburger icon */
 .menu-toggle {
   display: none;
   background: none;
   border: none;
   font-size: 24px;
+}
+
+/* Hide mobile-only links by default */
+.mobile-links {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* ✅ Mobile styles */
@@ -97,6 +124,36 @@
   .nav-links.open {
     display: flex;
   }
-  
+
+  .mobile-links {
+    display: flex;
+  }
+
+  .logout-link {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
+@media (min-width: 1024px) {
+  .header {
+    padding: 12px 40px;
+  }
+
+  .logo {
+    height: 48px;
+  }
+
+  .site-name {
+    font-size: 22px;
+  }
+
+  .nav-links {
+    gap: 40px;
+  }
+
+  .logout-link {
+    font-size: 16px;
+    padding: 8px 18px;
+  }
+}

@@ -17,12 +17,9 @@ const HomeRedirector: React.FC = () => {
 
       if (role === "STUDENT") {
         navigate("/home");
-      } else if (role === "DOCTOR") {
-        navigate("/doctor-home");
       } else {
-        // Unknown role
-        navigate("/login");
-      }
+        navigate("/doctor-home");
+      } 
     } catch (error) {
       console.error("Redirection failed:", error);
       navigate("/login");
