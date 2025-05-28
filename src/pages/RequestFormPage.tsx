@@ -119,6 +119,7 @@ const RequestFormPage: React.FC = () => {
   const removeServiceField = (index: number) => {
     setServices(prev => prev.filter((_, i) => i !== index));
   };
+  
   const handleSupervisorChange = (value: string) => {
     setSupervisor(value);
     fetchProfessors(value);
@@ -217,7 +218,6 @@ const RequestFormPage: React.FC = () => {
                         )}
                       </div>
                     ))}
-
                     <button type="button" onClick={addServiceField}>إضافة خدمة</button>
 
                     <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>بيانات المشرف</h4>
