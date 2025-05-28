@@ -249,6 +249,39 @@ main.request-form-wrapper {
   display: flex;
 }
 
+.service-input-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.service-input-wrapper input {
+  width: 100%;
+  padding-left: 36px; /* add space for X on the left */
+  padding-right: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  height: 38px;
+  box-sizing: border-box;
+  direction: rtl;
+}
+
+.clear-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px; /* move to the left side */
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.clear-icon:hover {
+  color: #f44336;
+}
 
 
 @media (max-width: 1024px) {
