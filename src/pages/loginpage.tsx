@@ -28,6 +28,7 @@ const LoginPage: React.FC = () => {
 
       localStorage.setItem("token", data.accessToken);
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("userRole", data.user.occupation);
       navigate("/");
     } catch (error) {
       console.error("Login error:", error);
