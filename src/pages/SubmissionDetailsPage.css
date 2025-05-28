@@ -3,7 +3,7 @@
   padding: 30px;
   margin-top: 20px;
   border-radius: 12px;
-  box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2 , );
+  box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2, );
   direction: rtl;
   font-family: 'Arial', sans-serif;
   margin-left: 160px;
@@ -118,19 +118,30 @@
 }
 
 .logs-toggle-btn {
-  background-color: #2563eb;
+  background-color: #3b82f6;
   color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
+  padding: 10px 16px;
+  /* match .action-tag */
+  border-radius: 12px;
+  /* match .action-tag */
+  font-size: 15px;
   font-weight: bold;
-  border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: none; 
-  z-index: 1;
- }
+  width: 140px;
+  /* fixed width like approve */
+  height: 40px;
+  /* match height */
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
 
- .action-bar-container {
+.logs-toggle-btn:hover {
+  background-color: #2563eb;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.action-bar-container {
   background: transparent;
   box-shadow: none;
 }
@@ -179,7 +190,7 @@
     margin-top: 24px;
   }
 
-   .submission-layout {
+  .submission-layout {
     flex-direction: column;
   }
 }

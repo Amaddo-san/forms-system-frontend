@@ -1,3 +1,4 @@
+
 .request-form-container {
   background-color: #f8f8f8;
   padding: 30px;
@@ -245,6 +246,7 @@ main.request-form-wrapper {
   flex: 1;
   padding: 20px;
 }
+
 .request-form-layout {
   display: flex;
 }
@@ -290,7 +292,8 @@ main.request-form-wrapper {
     justify-content: center;
     align-items: center;
   }
-.request-form-container {
+
+  .request-form-container {
     margin-left: 0;
     padding: 20px;
     border-radius: 12px;
@@ -335,14 +338,15 @@ main.request-form-wrapper {
     width: 100%;
   }
 
-  .sidebar{
+  .sidebar {
     display: none;
   }
+
   .request-form-layout {
     flex-direction: column;
   }
 
-  
+
 }
 
 @media (max-width: 600px) {
@@ -378,4 +382,3 @@ main.request-form-wrapper {
     border-radius: 10px;
   }
 }
-

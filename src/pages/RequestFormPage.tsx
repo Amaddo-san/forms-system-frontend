@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import "./RequestFormPage.css";
 import { useNavigate } from "react-router-dom";
@@ -63,6 +63,10 @@ const RequestFormPage: React.FC = () => {
     setServices(updated);
   };
 
+  const removeServiceField = (index: number) => {
+    setServices(prev => prev.filter((_, i) => i !== index));
+  };
+
   const addServiceField = () => {
     setServices([...services, ""]);
   };
@@ -98,6 +102,7 @@ const RequestFormPage: React.FC = () => {
       activityType: activityType,
       activityDate: date,
       organizingEntity: organization,
+      requiredServices: services.filter((s) => s.trim() !== ""),
       location: location,
       startTime: `${date}T${fromTime}`,
       endTime: `${date}T${toTime}`,
@@ -139,9 +144,9 @@ const RequestFormPage: React.FC = () => {
   return (
     <div>
       <Header username={username} />
-        <div className="request-form-layout">
+      <div className="request-form-layout">
         <Sidebar />
-            <div className="request-form-content">
+        <div className="request-form-content">
           <main className="request-form-wrapper">
             <div className="request-form-container">
               {submissionResult === "success" ? (
@@ -199,6 +204,7 @@ const RequestFormPage: React.FC = () => {
 
                     <label>الخدمات المطلوبة:</label>
                     {services.map((service, index) => (
+<<<<<<< HEAD
   <div key={index} className="service-input-wrapper">
     <input
       type="text"
@@ -219,6 +225,28 @@ const RequestFormPage: React.FC = () => {
   </div>
 ))}
 
+=======
+                      <div key={index} className="service-input-wrapper">
+                        <input
+                          type="text"
+                          value={service}
+                          onChange={(e) => handleServiceChange(index, e.target.value)}
+                          required
+                          placeholder="الخدمة المطلوبة"
+                          dir="rtl"
+                        />
+                        {services.length > 1 && (
+                          <span
+                            className="clear-icon"
+                            onClick={() => removeServiceField(index)}
+                            title="حذف"
+                          >
+                            ×
+                          </span>
+                        )}
+                      </div>
+                    ))}
+>>>>>>> da91dcb7f5b59a6f4a44d719c3bb354640f93d22
                     <button type="button" onClick={addServiceField}>إضافة خدمة</button>
 
                     <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>بيانات المشرف</h4>
@@ -279,8 +307,8 @@ const RequestFormPage: React.FC = () => {
             </div>
           </main>
         </div>
-        </div>
-  
+      </div>
+
 
       {showConfirmModal && (
         <ConfirmSubmitModal

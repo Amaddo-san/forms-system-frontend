@@ -18,6 +18,12 @@ const SubmissionDetailsPage: React.FC = () => {
   const [logs, setLogs] = useState<ActivityFormLog[]>([]);
   const [showLogs, setShowLogs] = useState(false);
 
+  const userData = localStorage.getItem("user");
+  const loggedInUser = userData ? JSON.parse(userData) : null;
+  const username = loggedInUser
+    ? `${loggedInUser.firstName} ${loggedInUser.lastName}`
+    : "User";
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,8 +44,8 @@ const SubmissionDetailsPage: React.FC = () => {
 
   return (
     <div>
-      <Header username="الطالب" />
-          <div className="submission-layout">
+      <Header username={username} />
+      <div className="submission-layout">
         <Sidebar />
 
         <div style={{ flex: 1, padding: "20px" }}>
@@ -51,7 +57,7 @@ const SubmissionDetailsPage: React.FC = () => {
                   currentStatus={submission.status || ""}
                 />
                 <button className="logs-toggle-btn" onClick={toggleLogs}>
-                  السجل
+                  Logs
                 </button>
               </div>
             </>
