@@ -135,9 +135,9 @@ const RequestFormPage: React.FC = () => {
   return (
     <div>
       <Header username={username} />
-      <div style={{ display: "flex" }}>
+        <div className="request-form-layout">
         <Sidebar />
-        <div style={{ flex: 1, padding: "20px", overflowY: "auto", maxHeight: "calc(100vh - 64px)" }}>
+            <div className="request-form-content">
           <main className="request-form-wrapper">
             <div className="request-form-container">
               {submissionResult === "success" ? (
@@ -263,7 +263,8 @@ const RequestFormPage: React.FC = () => {
             </div>
           </main>
         </div>
-      </div>
+        </div>
+  
 
       {showConfirmModal && (
         <ConfirmSubmitModal

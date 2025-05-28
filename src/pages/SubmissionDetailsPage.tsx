@@ -39,10 +39,10 @@ const SubmissionDetailsPage: React.FC = () => {
   return (
     <div>
       <Header username="الطالب" />
-      <div style={{ display: "flex" }}>
+          <div className="submission-layout">
         <Sidebar />
 
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", height: "calc(100vh - 64px)", overflow: "hidden" }}>
+        <div style={{ flex: 1, padding: "20px" }}>
           {submission && (
             <>
               <div className="action-bar-container">

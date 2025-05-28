@@ -12,7 +12,7 @@ const HomePage: React.FC = () => {
   const [submissions, setSubmissions] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(8);
   const [selectedStatus, setSelectedStatus] = useState("ALL");
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -70,10 +70,11 @@ useEffect(() => {
   return (
     <>
       <Header username={username} />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", minHeight: "100vh" }}>
         <Sidebar />
 
-        <div className="home-page" style={{ marginLeft: "220px", width: "100%" }}>
+        <div className="home-page" style={{ marginLeft: "220px", width: "100%", overflow: "auto" }}>
+
           <h2 className="section-title">Activity History</h2>
 
           <div className="table-controls">
@@ -129,7 +130,7 @@ useEffect(() => {
                   </td>
                   <td className="table-actions0">
                     <button
-                      className="edit-btn"
+                      className="view-btn"
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/submission/${item.uuid}`);

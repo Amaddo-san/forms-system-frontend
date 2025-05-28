@@ -1,9 +1,17 @@
+body, html {
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 /* Page container */
 .home-page {
-  padding: 30px 24px;
-  max-width: 1200px;
-  margin: auto;
+  margin-left: 260px;
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin-right: auto;
 }
+
 
 /* Title */
 .section-title {
@@ -53,28 +61,35 @@
 .pagination {
   display: flex;
   justify-content: center;
-  margin-top: 16px;
-  gap: 8px;
+  margin-top: 24px;
+  gap: 10px;
 }
 
 .pagination button {
-  background-color: #f1f1f1;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background-color: #f9f9f9;
+  color: #555;
   font-size: 14px;
-  transition: background-color 0.2s;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .pagination button:hover {
-  background-color: #e0e0e0;
+  background-color: #e2e8f0;
+  border-color: #2e7d32;
+  color: #2e7d32;
 }
 
-.pagination .active {
+.pagination button.active {
   background-color: #2e7d32;
   color: white;
-  font-weight: bold;
+  border-color: #2e7d32;
+  box-shadow: 0 4px 8px rgba(46, 125, 50, 0.2);
 }
 
 /* No results */
@@ -87,14 +102,16 @@
 
 /* Table Design */
 .activity-table0 {
-  width: 110%;
+  width: 100%;
   border-collapse: collapse;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   font-size: 14px;
+  margin: auto;
 }
+
 
 .activity-table0 th,
 .activity-table0 td {
@@ -143,35 +160,55 @@
 /* Table action buttons */
 .table-actions0 {
   display: flex;
+  flex-direction: row; 
   justify-content: flex-start;
   align-items: center;
-  gap: 8px; /* spacing between buttons */
+  gap: 12px; 
+  flex-wrap: wrap; 
 }
 
 .table-actions0 button {
-  border: none;
-  cursor: pointer;
+  border: 2px solid transparent;
+  background-color: transparent;
+  color: #1e293b;
   font-size: 14px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  white-space: nowrap;
-  gap: 5px;
-  transition: transform 0.2s ease;
+  gap: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
-.table-actions0 button.edit-btn {
-  background-color: #2e7d32;
+.table-actions0 button i {
+  font-size: 12px;
 }
 
+/* VIEW button */
+.table-actions0 button.view-btn {
+  border-color: #2e7d32;
+  color: #2e7d32;
+}
+
+.table-actions0 button.view-btn:hover {
+  background-color: #ecfdf5;
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+  transform: translateY(-2px);
+}
+
+/* DELETE button */
 .table-actions0 button.delete-btn {
-  background-color: #c62828;
+  border-color: #dc2626;
+  color: #dc2626;
 }
 
-.table-actions0 button:hover {
-  transform: scale(1.08);
+.table-actions0 button.delete-btn:hover {
+  background-color: #fef2f2;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
+  transform: translateY(-2px);
 }
 
 
@@ -194,13 +231,24 @@
 .table-controls input[type="text"] {
   padding: 10px 14px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   flex: 1;
-  min-width: 240px;
-  max-width: 400px;
+  max-width: 300px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  background-color: #f9fafb;
+  color: #1e293b;
 }
+
+.table-controls input[type="text"]:hover,
+.table-controls input[type="text"]:focus {
+  border-color: #2e7d32;
+  box-shadow: 0 0 8px rgba(46, 125, 50, 0.3);
+  background-color: #ffffff;
+  outline: none;
+}
+
 
 /* Style the filter bar consistently */
 .filter-bar {
@@ -236,66 +284,185 @@
 }
 
 
-@media (max-width: 768px) {
+
+@media (max-width: 700px) {
   .home-page {
-    padding: 20px 12px;
+    padding: 16px;
     margin-left: 0 !important;
   }
 
   .section-title {
     font-size: 20px;
-    padding-left: 10px;
+    text-align: center;
+    margin-bottom: 16px;
   }
 
   .table-controls {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .table-controls input[type="text"],
+  .filter-bar select {
+    width: 100%;
   }
 
   .filter-bar {
     width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 
   .activity-table0 {
-    font-size: 12px;
-    width: 100%;
-    overflow-x: auto;
     display: block;
+    width: 100%;
+    border-spacing: 0;
   }
 
-  .table-actions0 {
+  .activity-table0 thead {
+    display: none;
+  }
+
+  .activity-table0 tbody {
+    display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 14px;
+  }
+
+  .activity-table0 tr {
+    display: block;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    position: relative;
+    transition: transform 0.2s ease;
+  }
+
+  .activity-table0 tr:hover {
+    transform: translateY(-2px);
+  }
+
+  .activity-table0 td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border: none;
+    font-size: 14px;
+  }
+
+  .activity-table0 td:nth-child(1)::before { content: "#"; font-weight: bold; margin-right: 6px; }
+  .activity-table0 td:nth-child(2)::before { content: "Event:"; font-weight: bold; margin-right: 6px; }
+  .activity-table0 td:nth-child(3)::before { content: "Date:"; font-weight: bold; margin-right: 6px; }
+  .activity-table0 td:nth-child(4)::before { content: "Status:"; font-weight: bold; margin-right: 6px; }
+
+  .table-actions0 {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
   }
 
   .pagination {
-    flex-wrap: wrap;
-    gap: 4px;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
   }
-   .table-controls {
-    flex-direction: column;
-    align-items: stretch;
+}
+
+
+@media (min-width: 700px) and (max-width: 900px) {
+   .home-page {
+    padding: 24px 20px;
+    margin-left: 0 !important;
+    width: 100%;
   }
 
-  .filter-bar {
+  .activity-table0 {
+    font-size: 13px;
     width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    border-spacing: 0;
+  }
+
+  .section-title {
+    font-size: 22px;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .table-controls input[type="text"],
+  .filter-bar select {
+    width: 100%;
+  }
+
+  .table-actions0 {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .pagination {
+    justify-content: center;
+  }
+
+ .table-controls {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 16px;
+    margin-bottom: 24px;
   }
 
   .table-controls input[type="text"] {
     width: 100%;
-    max-width: none;
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    background-color: #f9fafb;
   }
+
+
+   .filter-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .filter-bar label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .filter-bar select {
+    width: 180px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    background-color: #fff;
+  }
+  
 }
+
+
 
 @media (min-width: 1024px) {
   .home-page {
     max-width: 1400px;
-    margin-left: 260px; /* match Sidebar width */
+    margin-left: 260px;
     padding: 40px;
   }
 
@@ -311,6 +478,5 @@
     font-size: 15px;
     padding: 8px 14px;
   }
-
-  
 }
+

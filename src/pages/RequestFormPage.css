@@ -98,7 +98,7 @@ main.request-form-wrapper {
   display: flex;
   justify-content: center;
   padding: 20px;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
 }
 
 .request-form-container {
@@ -236,47 +236,77 @@ main.request-form-wrapper {
   background-color: #1d4ed8;
 }
 
+.request-form-layout {
+  display: flex;
+  flex-direction: row;
+}
+
+.request-form-content {
+  flex: 1;
+  padding: 20px;
+}
+.request-form-layout {
+  display: flex;
+}
+
+
+
 @media (max-width: 1024px) {
-  .request-form-container {
-    margin-left: 0;
+  .request-form-wrapper {
     padding: 24px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-items: center;
+  }
+.request-form-container {
+    margin-left: 0;
+    padding: 20px;
     border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .request-form-container h2 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 16px;
   }
 
   .activity-type-group {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 12px;
+  }
+
+  .activity-type-option {
+    flex: 1 1 calc(50% - 12px);
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
   }
 
   .request-form-container input,
   .request-form-container textarea {
     font-size: 15px;
     padding: 10px;
+    margin-bottom: 10px;
   }
 
-  .request-form-container button,
-  .submission-message button {
+  .request-form-container button {
     width: 100%;
-    font-size: 15px;
+    font-size: 16px;
+    padding: 12px;
   }
 
-  .submission-message {
-    padding: 20px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
+  .back-btn {
+    width: 100%;
   }
 
-  .page-actions,
-  .actions-inside-top-right,
-  .actions-floating-bar {
+  .sidebar{
+    display: none;
+  }
+  .request-form-layout {
     flex-direction: column;
-    gap: 10px;
-    margin: 10px 0;
-  }
-
-  .logs-toggle-btn {
-    width: 100%;
   }
 
   
@@ -287,42 +317,32 @@ main.request-form-wrapper {
     padding: 16px;
   }
 
-  .request-form-container {
-    padding: 20px;
-  }
-
-  .request-form-container h2 {
-    font-size: 20px;
-  }
-
-  .request-form-container input,
-  .request-form-container textarea {
-    font-size: 14px;
-  }
-
-  .back-btn {
-    width: 100%;
-  }
-
-}
-
-
-@media (max-width: 768px) {
   .activity-type-group {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 
   .activity-type-option {
-    flex: 1 1 calc(50% - 10px);
-    box-sizing: border-box;
-    justify-content: center;
+    width: 100%;
+    flex: 1;
   }
 
-   .sidebar {
-    display: none;
+  .request-form-container {
+    padding: 16px;
+  }
+
+  .request-form-container h2 {
+    font-size: 18px;
+  }
+
+  .logs-toggle-btn {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .submission-message {
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
   }
 }
 
