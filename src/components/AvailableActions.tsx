@@ -1,5 +1,5 @@
-import axios from "axios";
 import "./AvailableActions.css";
+import instance from "../config/AxiosConfig";
 
 interface WorkflowActionResource {
     name: string;
@@ -83,7 +83,7 @@ const AvailableActions: React.FC<Props> = ({ actions, currentStatus }) => {
 
     const handleClick = async (href: string) => {
         try {
-            await axios.post(`${BASE_URL}${href}`);
+            await instance.post(`${BASE_URL}${href}`);
             window.location.reload();
         } catch (error) {
             console.error("Action failed:", error);

@@ -5,8 +5,9 @@ import Sidebar from "../components/Sidebar";
 import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
 import { ActivityFormService } from "../services/ActivityFormService";
+import { Status } from "../models/Status";
 
-const statuses = ["ALL", "NEW","Under Review", "Approved", "Rejected"];
+const statuses = ["ALL", ...Object.values(Status)];
 
 const HomePage: React.FC = () => {
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -19,40 +20,42 @@ const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const userData = localStorage.getItem("user");
-  const user = userData ? JSON.parse(userData) : null;
-  const username = user ? user.firstName : "User";
+  const loggedInUser = userData ? JSON.parse(userData) : null;
+  const username = loggedInUser
+    ? `${loggedInUser.firstName} ${loggedInUser.lastName}`
+    : "User";
   const navigate = useNavigate();
 
-useEffect(() => {
-  const fetchAndFilter = async () => {
-    try {
-      const res = await ActivityFormService.getPaginated(currentPage - 1, itemsPerPage);
-      let data = res.content;
+  useEffect(() => {
+    const fetchAndFilter = async () => {
+      try {
+        const res = await ActivityFormService.getPaginated(currentPage - 1, itemsPerPage);
+        let data = res.content;
 
-      // Filter by status if selected (skip "ALL")
-      if (selectedStatus !== "ALL") {
-        data = data.filter(item => item.status === selectedStatus);
+        // Filter by status if selected (skip "ALL")
+        if (selectedStatus !== "ALL") {
+          data = data.filter(item => item.status === selectedStatus);
+        }
+
+        // Apply search (basic lowercase match)
+        if (searchQuery.trim()) {
+          const query = searchQuery.toLowerCase();
+          data = data.filter(item =>
+            item.activityType?.toLowerCase().includes(query) ||
+            item.status?.toLowerCase().includes(query) ||
+            item.activityDate?.toLowerCase().includes(query)
+          );
+        }
+        data.sort((a, b) => (b.id || 0) - (a.id || 0));
+        setSubmissions(data);
+        setTotalPages(res.totalPages); // keep this for now
+      } catch (error) {
+        console.error("Failed to fetch submissions:", error);
       }
+    };
 
-      // Apply search (basic lowercase match)
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase();
-        data = data.filter(item =>
-          item.activityType?.toLowerCase().includes(query) ||
-          item.status?.toLowerCase().includes(query) ||
-          item.activityDate?.toLowerCase().includes(query)
-        );
-      }
-      data.sort((a, b) => (b.id || 0) - (a.id || 0));
-      setSubmissions(data);
-      setTotalPages(res.totalPages); // keep this for now
-    } catch (error) {
-      console.error("Failed to fetch submissions:", error);
-    }
-  };
-
-  fetchAndFilter();
-}, [currentPage, itemsPerPage, searchQuery, selectedStatus]);
+    fetchAndFilter();
+  }, [currentPage, itemsPerPage, searchQuery, selectedStatus]);
 
 
   const openDeleteModal = (id: string) => {
@@ -83,7 +86,7 @@ useEffect(() => {
               placeholder="Search by name, status, or date..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              // can re-enable once server-side search is added
+            // can re-enable once server-side search is added
             />
 
             <div className="filter-bar">
@@ -136,7 +139,7 @@ useEffect(() => {
                         navigate(`/submission/${item.uuid}`);
                       }}
                     >
-                     <i className="ri-eye-line"></i> View </button>
+                      <i className="ri-eye-line"></i> View </button>
                     <button
                       className="delete-btn"
                       onClick={(e) => {

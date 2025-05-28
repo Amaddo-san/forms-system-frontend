@@ -8,6 +8,7 @@ export class ActivityForm extends WorkflowResource {
     activityType!: string;
     activityDate!: string; // LocalDate as string
     organizingEntity!: string;
+    requiredServices!: string[];
     location!: string;
     startTime!: string; // LocalDateTime
     endTime!: string;   // LocalDateTime
