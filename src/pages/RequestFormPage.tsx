@@ -121,10 +121,6 @@ const RequestFormPage: React.FC = () => {
     }
   };
 
-  const removeServiceField = (index: number) => {
-  setServices(prev => prev.filter((_, i) => i !== index));
-};
-
   const handleSupervisorChange = (value: string) => {
     setSupervisor(value);
     fetchProfessors(value);
@@ -204,28 +200,6 @@ const RequestFormPage: React.FC = () => {
 
                     <label>الخدمات المطلوبة:</label>
                     {services.map((service, index) => (
-<<<<<<< HEAD
-  <div key={index} className="service-input-wrapper">
-    <input
-      type="text"
-      value={service}
-      onChange={(e) => handleServiceChange(index, e.target.value)}
-      required
-      placeholder="الخدمة المطلوبة"
-    />
-    {services.length > 1 && (
-      <span
-        className="clear-icon"
-        onClick={() => removeServiceField(index)}
-        title="حذف الخدمة"
-      >
-        ×
-      </span>
-    )}
-  </div>
-))}
-
-=======
                       <div key={index} className="service-input-wrapper">
                         <input
                           type="text"
@@ -246,7 +220,6 @@ const RequestFormPage: React.FC = () => {
                         )}
                       </div>
                     ))}
->>>>>>> da91dcb7f5b59a6f4a44d719c3bb354640f93d22
                     <button type="button" onClick={addServiceField}>إضافة خدمة</button>
 
                     <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>بيانات المشرف</h4>
