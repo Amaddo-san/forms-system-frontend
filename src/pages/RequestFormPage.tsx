@@ -13,7 +13,9 @@ import { UserService } from "../services/UserService";
 const RequestFormPage: React.FC = () => {
   const navigate = useNavigate();
   const userData = localStorage.getItem("user");
-  const loggedInUser = userData ? JSON.parse(userData) : null;
+  const loggedInUser: User | null = userData
+    ? (JSON.parse(userData) as User)
+    : null;
 
   const username = loggedInUser
     ? `${loggedInUser.firstName} ${loggedInUser.lastName}`
@@ -28,14 +30,12 @@ const RequestFormPage: React.FC = () => {
   const [location, setLocation] = useState("");
   const [audience, setAudience] = useState("");
   const [services, setServices] = useState([""]);
-  const [supervisor, setSupervisor] = useState("");
-  const [studentId, setStudentId] = useState("");
   const [submissionResult, setSubmissionResult] = useState<"success" | "cancel" | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [professors, setProfessors] = useState<User[]>([]);
-  const [students, setStudents] = useState<User[]>([]);
   const [selectedProfessor, setSelectedProfessor] = useState<User | null>(null);
-  const [selectedStudent, setSelectedStudent] = useState<User | null>(null);
+  const [supervisorSearch, setSupervisorSearch] = useState("");
+
 
   const fetchProfessors = async (keyword: string) => {
     if (keyword.trim() === "") return;
@@ -44,16 +44,6 @@ const RequestFormPage: React.FC = () => {
       setProfessors(res);
     } catch (err) {
       console.error("Error fetching professors", err);
-    }
-  };
-
-  const fetchStudents = async (keyword: string) => {
-    if (keyword.trim() === "") return;
-    try {
-      const res = await UserService.searchStudentsByUniversityId(keyword);
-      setStudents(res);
-    } catch (err) {
-      console.error("Error fetching students", err);
     }
   };
 
@@ -94,7 +84,7 @@ const RequestFormPage: React.FC = () => {
     const activityForm = new ActivityForm({
       status: "NEW",
       student: user,
-      supervisorName: supervisor,
+      supervisor: selectedProfessor ?? undefined,
       activityType: activityType,
       activityDate: date,
       organizingEntity: organization,
@@ -119,21 +109,18 @@ const RequestFormPage: React.FC = () => {
   const removeServiceField = (index: number) => {
     setServices(prev => prev.filter((_, i) => i !== index));
   };
-  
-  const handleSupervisorChange = (value: string) => {
-    setSupervisor(value);
-    fetchProfessors(value);
+
+  const handleSupervisorChange = (typed: string) => {
+    setSupervisorSearch(typed);
+    fetchProfessors(typed);
+
+    // 2) Only “lock in” a User once the full name matches exactly:
     const found = professors.find(
-      (p) => `${p.firstName} ${p.middleName} ${p.lastName}` === value
+      (p) =>
+        `${p.firstName} ${p.middleName ?? ""} ${p.lastName}`.trim() ===
+        typed.trim()
     );
     setSelectedProfessor(found || null);
-  };
-
-  const handleStudentIdChange = (value: string) => {
-    setStudentId(value);
-    fetchStudents(value);
-    const found = students.find((s) => s.universityId === value);
-    setSelectedStudent(found || null);
   };
 
   return (
@@ -225,13 +212,21 @@ const RequestFormPage: React.FC = () => {
                     <input
                       type="text"
                       list="professor-options"
-                      value={supervisor}
+                      value={
+                        selectedProfessor
+                          ? `${selectedProfessor.firstName} ${selectedProfessor.middleName ?? ""} ${selectedProfessor.lastName}`
+                          : supervisorSearch
+                      }
                       onChange={(e) => handleSupervisorChange(e.target.value)}
+                      placeholder="ابحث عن المشرف باسم كامل"
                       required
                     />
                     <datalist id="professor-options">
                       {professors.map((prof) => (
-                        <option key={prof.id} value={`${prof.firstName} ${prof.middleName} ${prof.lastName}`} />
+                        <option
+                          key={prof.id}
+                          value={`${prof.firstName} ${prof.middleName ?? ""} ${prof.lastName}`}
+                        />
                       ))}
                     </datalist>
 
@@ -244,31 +239,42 @@ const RequestFormPage: React.FC = () => {
                       </>
                     )}
 
-                    <hr style={{ marginTop: "15px", marginBottom: "10px", border: "none", height: "2px", color: "grey" }} />
-                    <h4>بيانات الطالب</h4>
-                    <label>الرقم الجامعي:</label>
-                    <input
-                      type="text"
-                      list="student-options"
-                      value={studentId}
-                      onChange={(e) => handleStudentIdChange(e.target.value)}
-                      required
+                    <hr
+                      style={{
+                        marginTop: "15px",
+                        marginBottom: "10px",
+                        border: "none",
+                        height: "2px",
+                        color: "grey",
+                      }}
                     />
-                    <datalist id="student-options">
-                      {students.map((s) => (
-                        <option key={s.id} value={s.universityId}>
-                          {s.universityId} - {s.firstName} {s.lastName}
-                        </option>
-                      ))}
-                    </datalist>
+                    <h4>بيانات الطالب</h4>
 
-                    {selectedStudent && (
+                    {loggedInUser ? (
                       <>
+                        <label>الرقم الجامعي:</label>
+                        <input
+                          type="text"
+                          value={loggedInUser.universityId}
+                          disabled
+                        />
+
                         <label>اسم الطالب:</label>
-                        <input type="text" disabled value={`${selectedStudent.firstName} ${selectedStudent.middleName} ${selectedStudent.lastName}`} />
+                        <input
+                          type="text"
+                          value={`${loggedInUser.firstName} ${loggedInUser.middleName ?? ""} ${loggedInUser.lastName}`}
+                          disabled
+                        />
+
                         <label>كلية الطالب:</label>
-                        <input type="text" disabled value={selectedStudent.faculty} />
+                        <input
+                          type="text"
+                          value={loggedInUser.faculty}
+                          disabled
+                        />
                       </>
+                    ) : (
+                      <p>يرجى تسجيل الدخول لعرض بيانات الطالب</p>
                     )}
 
                     <button type="submit">إرسال الطلب</button>
