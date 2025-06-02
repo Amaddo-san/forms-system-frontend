@@ -1,226 +1,172 @@
-.request-form-container {
-  background-color: #ffffff;
-  padding: 30px;
-  margin-top: 20px;
-  border-radius: 12px;
-  box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.2, );
-  direction: rtl;
-  font-family: 'Arial', sans-serif;
-  margin-left: 160px;
+
+/* 1) Ensure sidebar + content sit side by side */
+.submission-layout {
+  display: flex;
 }
 
+
+.submission-layout > div:nth-child(2) {
+  margin-left: 240px;
+}
+
+.request-form-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* 4) Style the white card that holds all submission fields */
+.request-form-container {
+  background-color: #ffffff;
+  padding: 40px;               /* generous inner padding */
+  margin-top: 40px;            /* vertical breathing room */
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  direction: rtl;              /* right‐to‐left text */
+  font-family: 'Arial', sans-serif;
+
+  /* On large screens, let the card occupy 80% of the available space
+     (i.e. the area to the right of the 240px sidebar), but never exceed 900px. */
+  width: 80%;
+  max-width: 900px;
+  min-width: 500px;            /* ensures card doesn’t shrink too small on very wide screens */
+}
+
+/* OPTIONAL: Center and style the h2 inside the card */
 .request-form-container h2 {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
 }
 
-.request-form-container label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
-  color: #444;
-}
-
-.request-form-container input,
-.request-form-container textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.request-form-container button {
-  margin-top: 15px;
+/* Style the “Logs” toggle button (if present) */
+.logs-toggle-btn {
+  font-size: 16px;
+  padding: 10px 20px;
   background-color: #1e293b;
-  color: white;
-  padding: 12px;
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
-  width: 100%;
-  transition: background-color 0.3s;
+  float: right;
+  margin-top: 16px;
+  margin-left: 16px; /* space between Logs and status badge */
 }
 
-.request-form-container button:hover {
-  background-color: #334766;
+.logs-toggle-btn:hover {
+  background-color: #1e293b;
 }
 
-.activity-type-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 10px;
+/* Status badge styling (if you have it in your TSX) */
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: bold;
   margin-bottom: 20px;
-  direction: rtl;
 }
 
-.activity-type-option {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  gap: 8px;
+.status-green {
+  background-color: #28a745; /* green */
+}
+.status-red {
+  background-color: #dc3545; /* red */
+}
+.status-orange {
+  background-color: #ffc107; /* orange */
 }
 
-.request-form-wrapper {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  background-color: #f4f4f4;
+/* Style labels and inputs/textareas inside the card */
+.request-form-container label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 500;
+  margin-right: 8px;
 }
 
-
-.submission-message {
-  background-color: white;
-  padding: 30px 40px;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 500px;
+.request-form-container input[type="text"],
+.request-form-container input[type="date"],
+.request-form-container input[type="time"],
+.request-form-container textarea {
   width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.request-form-container textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Style the “Back” button inside the card */
+.request-form-container .back-btn {
+  background-color: #1e293b;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.request-form-container .back-btn:hover {
+  background-color: #1e293b;
+}
+
+/* “Submission not found” message when submission is null */
+.submission-message {
+  padding: 20px;
+  font-size: 16px;
+}
+
+.submission-message .not-found {
+  color: #dc3545;
+  font-weight: bold;
+  margin-bottom: 16px;
 }
 
 .submission-message button {
-  background-color: #2e537d;
+  background-color: #1e293b;
   color: #fff;
+  padding: 12px 20px;
   border: none;
-  padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
 }
 
 .submission-message button:hover {
-  background-color: #256429;
+  background-color: #1e293b;
 }
 
-.actions-bar-aligned {
-  width: 100%;
-  max-width: 800px;
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-}
-
-.submission-wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.logs-toggle-btn {
-  background-color: #3b82f6;
-  color: white;
-  padding: 10px 16px;
-  /* match .action-tag */
-  border-radius: 12px;
-  /* match .action-tag */
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 140px;
-  /* fixed width like approve */
-  height: 40px;
-  /* match height */
-  border: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.logs-toggle-btn:hover {
-  background-color: #2563eb;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.action-bar-container {
-  background: transparent;
-  box-shadow: none;
-}
-
-.logs-toggle-btn:hover {
-  background-color: #1d4ed8;
-}
-
-.submission-layout {
-  display: flex;
-  flex-direction: row;
-}
-
-
-
-@media (max-width: 1024px) {
-  .request-form-wrapper {
-    padding: 24px;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .request-form-container {
+@media (max-width: 900px) {
+  /* Remove the left‐margin on the content wrapper */
+  .submission-layout > div:nth-child(2) {
     margin-left: 0;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-    max-width: 600px;
-    width: 100%;
+    padding: 10px;    /* tighten padding for smaller screens */
   }
 
-  .action-bar-container {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-    padding: 0 16px;
-  }
-
-  .logs-toggle-btn {
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  .back-btn {
-    width: 100%;
-    margin-top: 24px;
-  }
-
-  .submission-layout {
-    flex-direction: column;
+  /* Make the card nearly full-width on tablets */
+  .request-form-container {
+    width: 95%;
+    max-width: none;  /* ignore previous max-width so it can grow if needed */
+    min-width: auto;  /* allow it to shrink on smaller screens */
+    padding: 30px;
+    margin-top: 20px;
   }
 }
 
-@media (max-width: 768px) {
-  .request-form-wrapper {
-    padding: 16px;
-  }
 
-  .request-form-container h2 {
-    font-size: 20px;
-    text-align: center;
-  }
-
-  .request-form-container input,
-  .request-form-container textarea {
-    font-size: 14px;
-  }
-
-  .logs-toggle-btn {
-    font-size: 15px;
-    padding: 10px;
-  }
-
-  .submission-message {
-    padding: 20px;
-    font-size: 15px;
-  }
-
-  .submission-message button {
-    width: 100%;
+@media (max-width: 500px) {
+  .request-form-container {
+    width: 100%;   /* full width on tiny screens */
+    padding: 20px; /* reduce padding to fit content */
+    margin-top: 15px;
   }
 }

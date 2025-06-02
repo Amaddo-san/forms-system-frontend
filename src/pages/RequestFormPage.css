@@ -103,15 +103,20 @@ main.request-form-wrapper {
 }
 
 .request-form-container {
-  background-color: white;
-  padding: 30px 40px;
-  border-radius: 16px;
-  box-shadow: 0 8px 38px rgba(0, 0, 0, 0.50);
-  max-width: 800px;
-  width: 100%;
+  background-color: #f8f8f8;
+  padding: 40px;               /* a bit more inner padding for a larger feel */
+  margin-top: 40px;            /* add some vertical breathing room */
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   direction: rtl;
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;                  /* use 80% of available width */
+  max-width: 900px;            /* but never exceed 900px */
+  min-width: 500px;            /* ensure it doesn’t get too narrow on large screens */
 }
+
 
 .request-form-container h2 {
   text-align: center;
@@ -239,12 +244,12 @@ main.request-form-wrapper {
 
 .request-form-layout {
   display: flex;
-  flex-direction: row;
 }
 
 .request-form-content {
   flex: 1;
   padding: 20px;
+  margin-left: 240px;
 }
 
 .request-form-layout {
@@ -285,6 +290,27 @@ main.request-form-wrapper {
   color: #f44336;
 }
 
+@media (max-width: 900px) {
+  .request-form-content {
+    margin-left: 0;     /* no more “space for sidebar” */
+    padding: 10px;      /* slightly tighter padding on smaller screens */
+  }
+    .request-form-container {
+   width: 95%;         /* almost full width on mobile/tablet */
+    max-width: 900px;   /* still no wider than 900px */
+    min-width: auto;    /* remove the min‐width constraint */
+    margin-top: 20px;   /* reduce vertical margin a bit */
+    padding: 30px;       /* preserve some inner padding */
+  }
+}
+
+@media (max-width: 500px) {
+  .request-form-container {
+   width: 100%;
+    padding: 20px;
+    margin-top: 15px;
+  }
+}
 
 @media (max-width: 1024px) {
   .request-form-wrapper {
