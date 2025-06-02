@@ -1,6 +1,11 @@
 export enum Occupation {
     STUDENT = "STUDENT",
     PROFESSOR = "PROFESSOR",
-    ADMIN = "ADMIN",
-    // Add other roles based on backend enum
+    PRESIDENT = "PRESIDENT",
+    MANAGER = "MANAGER",
+    FACULTY_DEAN = "FACULTY_DEAN",
+    FACULTY_ASSISTANT_DEAN = "FACULTY_ASSISTANT_DEAN",
+    DEAN = "DEAN",
+    ASSISTANT_DEAN = "ASSISTANT_DEAN",
+    ADMIN = "ADMIN"
 }
