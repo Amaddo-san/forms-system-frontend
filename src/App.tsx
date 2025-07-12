@@ -7,6 +7,7 @@ import ReviewSubmissionPage from "./pages/ReviewSubmissionPage";
 import HomeRedirector from "./pages/HomeRedirector";
 import DoctorHomePage from "./pages/DoctorHomePage";
 import HomePage from "./pages/HomePage";
+import AppConfigsPage from "./pages/AppConfigsPage";
 
 
 const App: React.FC = () => {
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         <Route path="/request-form" element={<RequestFormPage />} />
         <Route path="/submission/:uuid" element={<SubmissionDetailsPage />} />
         <Route path="/review/:id" element={<ReviewSubmissionPage />} />
+        <Route path="/app-configs" element={<AppConfigsPage />} />
       </Routes>
     </Router>
   );

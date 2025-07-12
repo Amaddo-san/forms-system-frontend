@@ -18,7 +18,12 @@ export enum Status {
     INVESTMENT_CENTER_REJECTED = "INVESTMENT_CENTER_REJECTED",
     PENDING_DEANSHIP_REVIEW = "PENDING_DEANSHIP_REVIEW",
     DEANSHIP_APPROVED = "DEANSHIP_APPROVED",
-    DEANSHIP_REJECTED = "DEANSHIP_REJECTED"
+    DEANSHIP_REJECTED = "DEANSHIP_REJECTED",
+    SYSTEM_REJECTED = "SYSTEM_REJECTED",
+    POSTPONED = "POSTPONED",
+    CANCELLED = "CANCELLED",
+    COMPLETED = "COMPLETED",
+    EXECUTED = "EXECUTED",
 }
 
 export const statusLabels: Record<Status, string> = {
@@ -41,7 +46,12 @@ export const statusLabels: Record<Status, string> = {
     [Status.INVESTMENT_CENTER_REJECTED]: "رفض مركز الاستثمار",
     [Status.PENDING_DEANSHIP_REVIEW]: "بانتظار مراجعة العمادة",
     [Status.DEANSHIP_APPROVED]: "تمت الموافقة من العمادة",
-    [Status.DEANSHIP_REJECTED]: "تم الرفض من العمادة"
+    [Status.DEANSHIP_REJECTED]: "تم الرفض من العمادة",
+    [Status.SYSTEM_REJECTED]: "تم الرفض من النظام",
+    [Status.POSTPONED]: "تم التأجيل",
+    [Status.CANCELLED]: "تم الإلغاء",
+    [Status.COMPLETED]: "تم التنفيذ",
+    [Status.EXECUTED]: "تم التنفيذ",
 };
 
 export const getStatusLabel = (status: string): string => {

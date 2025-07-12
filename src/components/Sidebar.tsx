@@ -24,6 +24,9 @@ const homePath = role !== "STUDENT" ? "/doctor-home" : "/home";
         <Link to="/request-form" className={location.pathname === "/request-form" ? "active" : ""}>
           <i className="ri-file-add-line"></i> Request Form
         </Link>
+        <Link to="/app-configs" className={location.pathname === "/app-configs" ? "active" : ""}>
+          <i className="ri-settings-3-line"></i> App Configs
+        </Link>
       </nav>
     </aside>
   );
