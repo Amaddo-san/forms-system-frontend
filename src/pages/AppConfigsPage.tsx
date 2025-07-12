@@ -26,7 +26,10 @@ const AppConfigsPage: React.FC = () => {
 
     const handleSave = async (config: AppConfig) => {
         try {
-            const updated = await AppConfigService.updateConfig(config);
+            const updated = await AppConfigService.update(config.key, {
+                key: config.key,
+                value: config.value,
+            });
             setConfigs(prev =>
                 prev.map(c => c.id === updated.id ? updated : c)
             );
@@ -73,11 +76,12 @@ const AppConfigsPage: React.FC = () => {
                                         />
                                     </td>
                                     <td>
-                                        <input
+                                        <textarea
                                             value={config.value}
                                             onChange={(e) =>
                                                 handleUpdate(config.id, "value", e.target.value)
                                             }
+                                            rows={3}
                                         />
                                     </td>
                                     <td>{config.createdAt}</td>
