@@ -64,5 +64,18 @@ export const ActivityFormService = {
     async getLogsByUuid(uuid: string): Promise<ActivityFormLog[]> {
         const response = await instance.get<ActivityFormLog[]>(`${BASE_URL}/${uuid}/logs`);
         return response.data;
+    },
+
+    async addRemarks(uuid: string, remarks: string[]): Promise<ActivityForm> {
+        const response = await instance.post<ActivityForm>(
+            `${BASE_URL}/${uuid}/remarks`,
+            { remarks },
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+        return response.data;
     }
 };
