@@ -71,12 +71,11 @@ const LoginPage: React.FC = () => {
                         id="username-login"
                         type="text"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setUsername(e.target.value.toLowerCase())}
                         required
                       />
                     </div>
                   </div>
-
                   <div className="form-element form-stack input-icon-group">
                     <label htmlFor="password-login" className="form-label">Password</label>
                     <div className="input-wrapper">

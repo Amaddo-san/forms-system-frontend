@@ -1,10 +1,14 @@
-import "./AvailableActions.css";
+// src/components/AvailableActions.tsx
+
+import React, { useState } from "react";
 import instance from "../config/AxiosConfig";
+import { RejectWithReasonModal } from "./RejectWithReasonModal";
+import "./AvailableActions.css";
 
 interface WorkflowActionResource {
-    name: string;
-    href: string;
-    action: string;
+    name: string;   // e.g. "رفض الطلب"
+    href: string;   // e.g. "/api/activity-forms/{id}/reject"
+    action: string; // e.g. "REJECT", "APPROVE", etc.
 }
 
 interface Props {
@@ -14,7 +18,7 @@ interface Props {
 
 const BASE_URL = "http://localhost:8081";
 
-// ✅ Updated: each status can be handled by multiple roles
+// Map each status to the roles that may perform actions from it
 const statusToRoleMap: Record<string, string[]> = {
     NEW: ["STUDENT"],
     MODIFICATION: ["STUDENT"],
@@ -49,7 +53,7 @@ const statusToRoleMap: Record<string, string[]> = {
         "PRESIDENT",
         "DEAN",
         "ASSISTANT_DEAN",
-        "ADMIN"
+        "ADMIN",
     ],
     REJECTED: [
         "STUDENT",
@@ -60,30 +64,43 @@ const statusToRoleMap: Record<string, string[]> = {
         "PRESIDENT",
         "DEAN",
         "ASSISTANT_DEAN",
-        "ADMIN"
-    ]
+        "ADMIN",
+    ],
 };
 
 const AvailableActions: React.FC<Props> = ({ actions, currentStatus }) => {
+    // 1) Hooks must be at the top, unconditionally:
+    const [showRejectModal, setShowRejectModal] = useState(false);
+    const [pendingRejectHref, setPendingRejectHref] = useState<string | null>(null);
+
+    // Early return if no actions available:
     if (!actions || actions.length === 0) return null;
 
     const userRole = localStorage.getItem("userRole")?.toUpperCase();
 
-    // ✅ Filter based on status + role
-    const filteredActions = actions.filter(action => {
-        const allowedRoles = statusToRoleMap[currentStatus];
+    // 2) Filter actions by current status & user role:
+    const filteredActions = actions.filter((a) => {
+        const allowedRoles = statusToRoleMap[currentStatus] || [];
 
-        // Special case: STUDENT can submit only from NEW
+        // Special case: STUDENT may only “APPROVE” when status=NEW
         if (userRole === "STUDENT" && currentStatus === "NEW") {
-            return action.action === "APPROVE";
+            return a.action.toUpperCase() === "APPROVE";
         }
-
-        return allowedRoles?.includes(userRole || "") ?? false;
+        return allowedRoles.includes(userRole || "");
     });
 
-    const handleClick = async (href: string) => {
+    // 3) Split “approve” actions from the rest:
+    const approveActions = filteredActions.filter(
+        (a) => a.action.toLowerCase() === "approve"
+    );
+    const otherActions = filteredActions.filter(
+        (a) => a.action.toLowerCase() !== "approve"
+    );
+
+    // 4) Simple POST for approve/other (non-reject) actions:
+    const handleSimpleActionClick = async (href: string) => {
         try {
-            await instance.post(`${BASE_URL}${href}`);
+            await instance.post(`${BASE_URL}${href}`, {}); // no body needed
             window.location.reload();
         } catch (error) {
             console.error("Action failed:", error);
@@ -91,35 +108,92 @@ const AvailableActions: React.FC<Props> = ({ actions, currentStatus }) => {
         }
     };
 
-    const approveActions = filteredActions.filter(a => a.action.toLowerCase() === "approve");
-    const otherActions = filteredActions.filter(a => a.action.toLowerCase() !== "approve");
+    // 5) When user clicks “Reject,” store href and open modal:
+    const handleRejectClick = (href: string) => {
+        setPendingRejectHref(href);
+        setShowRejectModal(true);
+    };
+
+    // 6) When modal “Confirm” is clicked, send rejectionReason:
+    const handleRejectConfirm = async (reason: string) => {
+        setShowRejectModal(false);
+
+        if (!pendingRejectHref) {
+            console.error("No href stored for reject!");
+            return;
+        }
+
+        try {
+            // Send JSON { rejectionReason } along with the POST
+            await instance.post(`${BASE_URL}${pendingRejectHref}`, { rejectionReason: reason });
+            window.location.reload();
+        } catch (error) {
+            console.error("Reject failed:", error);
+            alert("فشل رفض الطلب. الرجاء المحاولة لاحقاً.");
+        } finally {
+            setPendingRejectHref(null);
+        }
+    };
+
+    // 7) If user cancels in modal, just close it:
+    const handleRejectCancel = () => {
+        setShowRejectModal(false);
+        setPendingRejectHref(null);
+    };
 
     return (
-        <div className="actions-bar">
-            {otherActions.map((action, index) => (
-                <button
-                    key={index}
-                    className={`action-tag ${action.action.toLowerCase()}`}
-                    title={action.href}
-                    onClick={() => handleClick(action.href)}
-                >
-                    {action.name}
-                </button>
-            ))}
+        <>
+            <div className="actions-bar">
+                {otherActions.map((action, idx) => {
+                    // If it’s a REJECT action, open modal instead of immediate POST
+                    if (action.action.toLowerCase() === "reject") {
+                        return (
+                            <button
+                                key={idx}
+                                className={`action-tag ${action.action.toLowerCase()}`}
+                                title={action.href}
+                                onClick={() => handleRejectClick(action.href)}
+                            >
+                                {action.name}
+                            </button>
+                        );
+                    }
 
-            {approveActions.length > 0 && <div className="action-spacer" />}
+                    // Otherwise, do a simple POST/hard reload
+                    return (
+                        <button
+                            key={idx}
+                            className={`action-tag ${action.action.toLowerCase()}`}
+                            title={action.href}
+                            onClick={() => handleSimpleActionClick(action.href)}
+                        >
+                            {action.name}
+                        </button>
+                    );
+                })}
 
-            {approveActions.map((action, index) => (
-                <button
-                    key={`approve-${index}`}
-                    className={`action-tag ${action.action.toLowerCase()}`}
-                    title={action.href}
-                    onClick={() => handleClick(action.href)}
-                >
-                    {action.name}
-                </button>
-            ))}
-        </div>
+                {approveActions.length > 0 && <div className="action-spacer" />}
+
+                {approveActions.map((action, idx) => (
+                    <button
+                        key={`approve-${idx}`}
+                        className={`action-tag ${action.action.toLowerCase()}`}
+                        title={action.href}
+                        onClick={() => handleSimpleActionClick(action.href)}
+                    >
+                        {action.name}
+                    </button>
+                ))}
+            </div>
+
+            {/* Render the modal when a reject action is pending */}
+            {showRejectModal && (
+                <RejectWithReasonModal
+                    onConfirm={handleRejectConfirm}
+                    onCancel={handleRejectCancel}
+                />
+            )}
+        </>
     );
 };
 

@@ -148,18 +148,18 @@ const RequestFormPage: React.FC = () => {
                     <label>نوع النشاط:</label>
                     <div className="activity-type-group">
                       {["مبادرة", "محاضرة", "دورة تدريبية", "ورشة", "معرض", "مسابقة"].map((type) => (
-                        <div key={type} className="activity-type-option">
+                        <label key={type} className={`activity-type-option ${activityType === type ? 'selected' : ''}`}>
                           <input
                             type="radio"
                             name="activityType"
-                            id={type}
                             value={type}
                             checked={activityType === type}
                             onChange={(e) => setActivityType(e.target.value)}
                             required
                           />
-                          <label htmlFor={type}>{type}</label>
-                        </div>
+                          {type}
+                        </label>
+
                       ))}
                     </div>
 

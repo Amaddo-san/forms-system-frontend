@@ -76,9 +76,9 @@ const SubmissionDetailsPage: React.FC = () => {
               <div className="request-form-container">
                 <h2>نموذج عرض بيانات النشاط</h2>
 
-                <div className={`status-badge ${submission.status === "NEW" || submission.status === "Approved"
+                <div className={`status-badge ${submission.status === "NEW" || submission.status?.toLowerCase().includes("approved") 
                   ? "status-green"
-                  : submission.status === "Rejected"
+                  : submission.status?.toLowerCase().includes("rejected") 
                     ? "status-red"
                     : "status-orange"
                   }`}>

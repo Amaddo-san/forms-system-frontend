@@ -9,8 +9,7 @@ const Sidebar: React.FC = () => {
   const user = userData ? JSON.parse(userData) : null;
   const role = user?.occupation?.toUpperCase();
 
-  const doctorRoles = ["DOCTOR", "PROFESSOR", "SUPERVISOR"];
-const homePath = doctorRoles.includes(role) ? "/doctor-home" : "/home";
+const homePath = role !== "STUDENT" ? "/doctor-home" : "/home";
 
 
   return (
