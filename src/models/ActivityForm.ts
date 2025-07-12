@@ -1,4 +1,5 @@
 import { User } from "./User";
+import { ValidationError } from "./ValidationError";
 import { WorkflowResource } from "./WorkflowResource";
 
 export class ActivityForm extends WorkflowResource {
@@ -16,6 +17,11 @@ export class ActivityForm extends WorkflowResource {
     description!: string;
     rejectionReason?: string;
     createdAt?: string;
+    errors?: ValidationError[];
+    isPassThrough?: boolean;
+    hasSponsors?: boolean;
+    sponsors?: string[];
+    remarks?: string[];
 
     constructor(init?: Partial<ActivityForm>) {
         super();

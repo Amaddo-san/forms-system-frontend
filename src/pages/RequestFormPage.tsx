@@ -30,12 +30,12 @@ const RequestFormPage: React.FC = () => {
   const [location, setLocation] = useState("");
   const [audience, setAudience] = useState("");
   const [services, setServices] = useState([""]);
+  const [sponsors, setSponsors] = useState([""]);
   const [submissionResult, setSubmissionResult] = useState<"success" | "cancel" | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [professors, setProfessors] = useState<User[]>([]);
   const [selectedProfessor, setSelectedProfessor] = useState<User | null>(null);
   const [supervisorSearch, setSupervisorSearch] = useState("");
-
 
   const fetchProfessors = async (keyword: string) => {
     if (keyword.trim() === "") return;
@@ -55,6 +55,36 @@ const RequestFormPage: React.FC = () => {
 
   const addServiceField = () => {
     setServices([...services, ""]);
+  };
+
+  const removeServiceField = (index: number) => {
+    setServices(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSponsorChange = (index: number, value: string) => {
+    const updated = [...sponsors];
+    updated[index] = value;
+    setSponsors(updated);
+  };
+
+  const addSponsorField = () => {
+    setSponsors([...sponsors, ""]);
+  };
+
+  const removeSponsorField = (index: number) => {
+    setSponsors(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSupervisorChange = (typed: string) => {
+    setSupervisorSearch(typed);
+    fetchProfessors(typed);
+
+    const found = professors.find(
+      (p) =>
+        `${p.firstName} ${p.middleName ?? ""} ${p.lastName}`.trim() ===
+        typed.trim()
+    );
+    setSelectedProfessor(found || null);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -92,7 +122,9 @@ const RequestFormPage: React.FC = () => {
       startTime: `${date}T${fromTime}`,
       endTime: `${date}T${toTime}`,
       phoneNumber: user.phoneNumber,
-      description: description
+      description: description,
+      requiredServices: services,
+      sponsors: sponsors.filter(s => s.trim() !== "")
     });
 
     try {
@@ -104,23 +136,6 @@ const RequestFormPage: React.FC = () => {
     } finally {
       setShowConfirmModal(false);
     }
-  };
-
-  const removeServiceField = (index: number) => {
-    setServices(prev => prev.filter((_, i) => i !== index));
-  };
-
-  const handleSupervisorChange = (typed: string) => {
-    setSupervisorSearch(typed);
-    fetchProfessors(typed);
-
-    // 2) Only “lock in” a User once the full name matches exactly:
-    const found = professors.find(
-      (p) =>
-        `${p.firstName} ${p.middleName ?? ""} ${p.lastName}`.trim() ===
-        typed.trim()
-    );
-    setSelectedProfessor(found || null);
   };
 
   return (
@@ -159,7 +174,6 @@ const RequestFormPage: React.FC = () => {
                           />
                           {type}
                         </label>
-
                       ))}
                     </div>
 
@@ -206,6 +220,29 @@ const RequestFormPage: React.FC = () => {
                       </div>
                     ))}
                     <button type="button" onClick={addServiceField}>إضافة خدمة</button>
+                    <br />
+                    <br />
+                    <label>الرعاة (اختياري):</label>
+                    {sponsors.map((sponsor, index) => (
+                      <div key={index} className="service-input-wrapper">
+                        <input
+                          type="text"
+                          value={sponsor}
+                          onChange={(e) => handleSponsorChange(index, e.target.value)}
+                          placeholder="اسم الراعي"
+                        />
+                        {sponsors.length > 1 && (
+                          <span
+                            className="clear-icon"
+                            onClick={() => removeSponsorField(index)}
+                            title="حذف الراعي"
+                          >
+                            ×
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                    <button type="button" onClick={addSponsorField}>إضافة راعي</button>
 
                     <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>بيانات المشرف</h4>
                     <label>اسم مشرف النشاط:</label>
@@ -253,25 +290,11 @@ const RequestFormPage: React.FC = () => {
                     {loggedInUser ? (
                       <>
                         <label>الرقم الجامعي:</label>
-                        <input
-                          type="text"
-                          value={loggedInUser.universityId}
-                          disabled
-                        />
-
+                        <input type="text" value={loggedInUser.universityId} disabled />
                         <label>اسم الطالب:</label>
-                        <input
-                          type="text"
-                          value={`${loggedInUser.firstName} ${loggedInUser.middleName ?? ""} ${loggedInUser.lastName}`}
-                          disabled
-                        />
-
+                        <input type="text" value={`${loggedInUser.firstName} ${loggedInUser.middleName ?? ""} ${loggedInUser.lastName}`} disabled />
                         <label>كلية الطالب:</label>
-                        <input
-                          type="text"
-                          value={loggedInUser.faculty}
-                          disabled
-                        />
+                        <input type="text" value={loggedInUser.faculty} disabled />
                       </>
                     ) : (
                       <p>يرجى تسجيل الدخول لعرض بيانات الطالب</p>
@@ -285,7 +308,6 @@ const RequestFormPage: React.FC = () => {
           </main>
         </div>
       </div>
-
 
       {showConfirmModal && (
         <ConfirmSubmitModal

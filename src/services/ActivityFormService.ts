@@ -66,10 +66,10 @@ export const ActivityFormService = {
         return response.data;
     },
 
-    async addRemarks(uuid: string, remark: string): Promise<ActivityForm> {
+    async addRemarks(uuid: string, remarks: string[]): Promise<ActivityForm> {
         const response = await instance.post<ActivityForm>(
             `${BASE_URL}/${uuid}/remarks`,
-            { remarks: [remark] }, // wrap the string into an array
+            { remarks },
             {
                 headers: {
                     "Content-Type": "application/json"
