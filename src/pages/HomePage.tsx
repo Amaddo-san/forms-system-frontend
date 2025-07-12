@@ -138,7 +138,7 @@ const HomePage: React.FC = () => {
                   >
                     <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
                     <td>{item.activityType}</td>
-                    <td>{item.activityDate}</td>
+                    <td>{item.createdAt}</td>
                     <td>
                       <span className={`status-label ${statusClass}`}>
                         {statusText}
