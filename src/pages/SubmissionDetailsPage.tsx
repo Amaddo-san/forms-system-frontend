@@ -10,6 +10,7 @@ import { ActivityFormLog } from "../models/ActivityFormLog";
 import "./SubmissionDetailsPage.css";
 import "../components/LogsSidebar.css";
 import LogsSidebar from "../components/LogsSideBar";
+import { User } from "../models/User";
 
 const SubmissionDetailsPage: React.FC = () => {
   const { uuid } = useParams<{ uuid: string }>();
@@ -19,7 +20,9 @@ const SubmissionDetailsPage: React.FC = () => {
   const [showLogs, setShowLogs] = useState(false);
 
   const userData = localStorage.getItem("user");
-  const loggedInUser = userData ? JSON.parse(userData) : null;
+  const loggedInUser: User | null = userData
+    ? (JSON.parse(userData) as User)
+    : null;
   const username = loggedInUser
     ? `${loggedInUser.firstName} ${loggedInUser.lastName}`
     : "User";
@@ -73,9 +76,9 @@ const SubmissionDetailsPage: React.FC = () => {
               <div className="request-form-container">
                 <h2>نموذج عرض بيانات النشاط</h2>
 
-                <div className={`status-badge ${submission.status === "NEW" || submission.status === "Approved"
+                <div className={`status-badge ${submission.status === "NEW" || submission.status?.toLowerCase().includes("approved") 
                   ? "status-green"
-                  : submission.status === "Rejected"
+                  : submission.status?.toLowerCase().includes("rejected") 
                     ? "status-red"
                     : "status-orange"
                   }`}>
@@ -109,7 +112,15 @@ const SubmissionDetailsPage: React.FC = () => {
 
                   <h4 style={{ marginTop: "20px", marginBottom: "10px" }}>بيانات المشرف</h4>
                   <label>اسم مشرف النشاط:</label>
-                  <input type="text" value={submission.supervisorName} disabled />
+                  <input
+                    type="text"
+                    value={
+                      `${submission.supervisor.firstName} ` +
+                      `${submission.supervisor.middleName ?? ""} ` +
+                      `${submission.supervisor.lastName}`.trim()
+                    }
+                    disabled
+                  />
 
                   {submission.student && (
                     <>

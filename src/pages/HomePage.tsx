@@ -117,41 +117,56 @@ const HomePage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {submissions.map((item, index) => (
-                <tr
-                  key={item.id}
-                  onClick={() => navigate(`/submission/${item.uuid}`)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
-                  <td>{item.activityType}</td>
-                  <td>{item.activityDate}</td>
-                  <td>
-                    <span className={`status-label ${item.status?.toLowerCase().replace(" ", "-")}`.trim()}>
-                      {item.status}
-                    </span>
-                  </td>
-                  <td className="table-actions0">
-                    <button
-                      className="view-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/submission/${item.uuid}`);
-                      }}
-                    >
-                      <i className="ri-eye-line"></i> View </button>
-                    <button
-                      className="delete-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openDeleteModal(item.id!);
-                      }}
-                    >
-                      <i className="ri-delete-bin-line"></i> Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {submissions.map((item, index) => {
+                const statusText = item.status || "";
+                const lower = statusText.toLowerCase();
+
+                // Determine which CSS class to apply
+                const statusClass = lower.includes("rejected")
+                  ? "rejected"
+                  : lower.includes("approved")
+                    ? "approved"
+                    : lower.includes("new")
+                      ? "new"
+                      : "under-review";
+
+                return (
+                  <tr
+                    key={item.id}
+                    onClick={() => navigate(`/submission/${item.uuid}`)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+                    <td>{item.activityType}</td>
+                    <td>{item.activityDate}</td>
+                    <td>
+                      <span className={`status-label ${statusClass}`}>
+                        {statusText}
+                      </span>
+                    </td>
+                    <td className="table-actions0">
+                      <button
+                        className="view-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/submission/${item.uuid}`);
+                        }}
+                      >
+                        <i className="ri-eye-line"></i> View
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openDeleteModal(item.id!);
+                        }}
+                      >
+                        <i className="ri-delete-bin-line"></i> Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
 

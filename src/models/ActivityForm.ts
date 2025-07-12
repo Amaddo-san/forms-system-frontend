@@ -4,7 +4,7 @@ import { WorkflowResource } from "./WorkflowResource";
 export class ActivityForm extends WorkflowResource {
     id?: number;
     student!: User;
-    supervisorName!: string;
+    supervisor!: User;
     activityType!: string;
     activityDate!: string; // LocalDate as string
     organizingEntity!: string;
@@ -14,6 +14,7 @@ export class ActivityForm extends WorkflowResource {
     endTime!: string;   // LocalDateTime
     phoneNumber!: string;
     description!: string;
+    rejectionReason?: string;
     createdAt?: string;
 
     constructor(init?: Partial<ActivityForm>) {

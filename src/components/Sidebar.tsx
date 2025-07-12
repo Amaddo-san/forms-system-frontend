@@ -9,8 +9,7 @@ const Sidebar: React.FC = () => {
   const user = userData ? JSON.parse(userData) : null;
   const role = user?.occupation?.toUpperCase();
 
-  const doctorRoles = ["DOCTOR", "PROFESSOR", "SUPERVISOR"];
-const homePath = doctorRoles.includes(role) ? "/doctor-home" : "/home";
+const homePath = role !== "STUDENT" ? "/doctor-home" : "/home";
 
 
   return (
@@ -24,6 +23,9 @@ const homePath = doctorRoles.includes(role) ? "/doctor-home" : "/home";
         </Link>
         <Link to="/request-form" className={location.pathname === "/request-form" ? "active" : ""}>
           <i className="ri-file-add-line"></i> Request Form
+        </Link>
+        <Link to="/app-configs" className={location.pathname === "/app-configs" ? "active" : ""}>
+          <i className="ri-settings-3-line"></i> App Configs
         </Link>
       </nav>
     </aside>

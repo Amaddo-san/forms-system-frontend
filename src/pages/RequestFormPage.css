@@ -1,4 +1,3 @@
-
 .request-form-container {
   background-color: #f8f8f8;
   padding: 30px;
@@ -74,24 +73,37 @@
 .activity-type-option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  width: 100px;
+  height: 50px;
   padding: 6px 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
   background: #f9f9f9;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  font-weight: 500;
+  user-select: none;
+  text-align: center;
+}
+
+.activity-type-option input[type="radio"] {
+  display: none;
 }
 
 .activity-type-option:hover {
-  background-color: #f0f0f0;
+  background-color: #ececec;
+}
+
+.activity-type-option.selected {
+  background-color: #d0e0ff;
+  border-color: #4285f4;
+  color: #1a1a1a;
 }
 
 .activity-type-option input {
   cursor: pointer;
 }
-
-
 
 main.request-form-wrapper {
   flex: 1;
@@ -104,17 +116,22 @@ main.request-form-wrapper {
 
 .request-form-container {
   background-color: #f8f8f8;
-  padding: 40px;               /* a bit more inner padding for a larger feel */
-  margin-top: 40px;            /* add some vertical breathing room */
+  padding: 40px;
+  /* a bit more inner padding for a larger feel */
+  margin-top: 40px;
+  /* add some vertical breathing room */
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   direction: rtl;
   font-family: 'Arial', sans-serif;
   margin-left: auto;
   margin-right: auto;
-  width: 80%;                  /* use 80% of available width */
-  max-width: 900px;            /* but never exceed 900px */
-  min-width: 500px;            /* ensure it doesn’t get too narrow on large screens */
+  width: 80%;
+  /* use 80% of available width */
+  max-width: 900px;
+  /* but never exceed 900px */
+  min-width: 500px;
+  /* ensure it doesn’t get too narrow on large screens */
 }
 
 
@@ -264,7 +281,8 @@ main.request-form-wrapper {
 
 .service-input-wrapper input {
   width: 100%;
-  padding-left: 36px; /* add space for X on the left */
+  padding-left: 36px;
+  /* add space for X on the left */
   padding-right: 12px;
   font-size: 14px;
   border-radius: 8px;
@@ -277,7 +295,8 @@ main.request-form-wrapper {
 .clear-icon {
   position: absolute;
   top: 50%;
-  left: 10px; /* move to the left side */
+  left: 10px;
+  /* move to the left side */
   transform: translateY(-50%);
   font-size: 18px;
   color: #888;
@@ -292,21 +311,29 @@ main.request-form-wrapper {
 
 @media (max-width: 900px) {
   .request-form-content {
-    margin-left: 0;     /* no more “space for sidebar” */
-    padding: 10px;      /* slightly tighter padding on smaller screens */
+    margin-left: 0;
+    /* no more “space for sidebar” */
+    padding: 10px;
+    /* slightly tighter padding on smaller screens */
   }
-    .request-form-container {
-   width: 95%;         /* almost full width on mobile/tablet */
-    max-width: 900px;   /* still no wider than 900px */
-    min-width: auto;    /* remove the min‐width constraint */
-    margin-top: 20px;   /* reduce vertical margin a bit */
-    padding: 30px;       /* preserve some inner padding */
+
+  .request-form-container {
+    width: 95%;
+    /* almost full width on mobile/tablet */
+    max-width: 900px;
+    /* still no wider than 900px */
+    min-width: auto;
+    /* remove the min‐width constraint */
+    margin-top: 20px;
+    /* reduce vertical margin a bit */
+    padding: 30px;
+    /* preserve some inner padding */
   }
 }
 
 @media (max-width: 500px) {
   .request-form-container {
-   width: 100%;
+    width: 100%;
     padding: 20px;
     margin-top: 15px;
   }
