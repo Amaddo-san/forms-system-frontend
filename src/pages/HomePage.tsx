@@ -154,15 +154,7 @@ const HomePage: React.FC = () => {
                       >
                         <i className="ri-eye-line"></i> View
                       </button>
-                      <button
-                        className="delete-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openDeleteModal(item.id!);
-                        }}
-                      >
-                        <i className="ri-delete-bin-line"></i> Delete
-                      </button>
+                  
                     </td>
                   </tr>
                 );

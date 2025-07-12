@@ -202,16 +202,6 @@ body, html {
 }
 
 /* DELETE button */
-.table-actions0 button.delete-btn {
-  border-color: #dc2626;
-  color: #dc2626;
-}
-
-.table-actions0 button.delete-btn:hover {
-  background-color: #fef2f2;
-  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
-  transform: translateY(-2px);
-}
 
 
 .search-bar {
