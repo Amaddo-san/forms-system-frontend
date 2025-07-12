@@ -154,6 +154,8 @@
   background-color: #1e293b;
 }
 
+
+
 @media (max-width: 900px) {
 
   /* Remove the left‐margin on the content wrapper */
@@ -190,12 +192,13 @@
   font-size: 16px;
   padding: 10px 20px;
   background-color: #1e293b;
-  /* Match Logs button */
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-bottom: 20px;
+  float: right;
+  margin-top: 16px;
+  margin-left: 16px;
 }
 
 .remarks-top-btn:hover {

@@ -9,7 +9,7 @@ import DoctorHomePage from "./pages/DoctorHomePage";
 import HomePage from "./pages/HomePage";
 import AppConfigsPage from "./pages/AppConfigsPage";
 import AppConfigCreatePage from "./pages/AppConfigCreatePage";
-
+import AppConfigEditPage from "./pages/AppConfigEditPage"; 
 
 
 const App: React.FC = () => {
@@ -25,6 +25,7 @@ const App: React.FC = () => {
         <Route path="/review/:id" element={<ReviewSubmissionPage />} />
         <Route path="/app-configs" element={<AppConfigsPage />} />
         <Route path="/app-configs/create" element={<AppConfigCreatePage />} />
+        <Route path="/app-configs/edit/:uuid" element={<AppConfigEditPage />} />
       </Routes>
     </Router>
   );

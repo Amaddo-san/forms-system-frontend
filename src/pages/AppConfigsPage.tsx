@@ -18,6 +18,7 @@ const AppConfigsPage: React.FC = () => {
             .finally(() => setLoading(false));
     }, []);
 
+    
     const handleUpdate = (id: number, field: "key" | "value", newValue: string) => {
         setConfigs(prev =>
             prev.map(config =>
@@ -83,6 +84,15 @@ const AppConfigsPage: React.FC = () => {
                                             <tr key={config.id}>
                                                 <td>{index + 1}</td>
                                                 <td>{config.uuid}</td>
+                                                  <td>
+        <button
+          className="view-btn"
+          onClick={() => navigate(`/app-configs/edit/${config.uuid}`)}
+        >
+          View
+        </button>
+      </td>
+
                                                 <td>
                                                     <input
                                                         value={config.key}

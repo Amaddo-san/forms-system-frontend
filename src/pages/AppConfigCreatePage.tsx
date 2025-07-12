@@ -44,7 +44,7 @@ const AppConfigCreatePage: React.FC = () => {
             required
           />
           <button type="submit" className="config-create-btn">
-            Submit
+            Create
           </button>
         </form>
       </div>

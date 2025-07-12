@@ -83,26 +83,23 @@ const SubmissionDetailsPage: React.FC = () => {
       <Header username={username} />
       <div className="submission-layout">
         <Sidebar />
-
         <div style={{ flex: 1, padding: "20px" }}>
-          <button
-            className="remarks-top-btn"
-            onClick={() => setShowRemarksPopup(true)}
-          >
-            Remarks
-          </button>
-
+          
           {submission && (
-            <div className="action-bar-container">
-              <ActionBar
-                actions={submission.availableActions}
-                currentStatus={submission.status || ""}
-              />
-              <button className="logs-toggle-btn" onClick={toggleLogs}>
-                Logs
-              </button>
-            </div>
-          )}
+  <div className="action-bar-container">
+    <ActionBar
+      actions={submission.availableActions}
+      currentStatus={submission.status || ""}
+    />
+      <button className="remarks-top-btn" onClick={() => setShowRemarksPopup(true)}>
+        Remarks
+      </button>
+      <button className="logs-toggle-btn" onClick={toggleLogs}>
+        Logs
+      </button>
+    </div>
+)}
+
 
           <main className="request-form-wrapper">
             {!submission ? (
