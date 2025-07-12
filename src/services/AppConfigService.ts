@@ -1,6 +1,5 @@
 import axios from "axios";
 import { AppConfig } from "../models/AppConfig";
-import instance from "../config/AxiosConfig";
 
 const BASE_URL = "/api/app-configs";
 
@@ -15,12 +14,6 @@ export const AppConfigService = {
         const res = await axios.get(BASE_URL);
         return res.data;
     },
-
-    create: async (data: { key: string; value: string }): Promise<AppConfig> => {
-  const response = await instance.post<AppConfig>("/api/app-configs", data);
-  return response.data;
-},
-
 
     // GET /api/app-configs/{key}
     getByKey: async (key: string): Promise<AppConfig> => {
