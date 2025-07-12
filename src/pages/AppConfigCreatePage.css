@@ -1,0 +1,68 @@
+.config-create-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* subtract header height */
+  padding: 40px 20px;
+}
+
+.config-create-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 150%;
+  max-width: 500px; /* larger */
+  padding: 40px;     /* more spacing */
+  margin: 0 auto;
+}
+
+.config-create-card h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 22px;
+  color: #1e293b;
+}
+
+.config-create-card label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.config-create-card textarea {
+  width: 100%;
+  padding: 25px 30px;
+  font-size: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 24px;
+  background-color: #f9f9f9;
+  resize: vertical; /* Allows the user to resize if needed */
+  transition: border 0.3s ease;
+}
+
+.config-create-card textarea:focus {
+  border-color: #2563eb;
+  background-color: #fff;
+  outline: none;
+}
+
+
+.config-create-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.config-create-btn:hover {
+  background-color: #1d4ed8;
+}
+

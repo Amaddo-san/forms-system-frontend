@@ -138,7 +138,7 @@ const HomePage: React.FC = () => {
                   >
                     <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
                     <td>{item.activityType}</td>
-                    <td>{item.activityDate}</td>
+                    <td>{item.createdAt}</td>
                     <td>
                       <span className={`status-label ${statusClass}`}>
                         {statusText}
@@ -154,15 +154,7 @@ const HomePage: React.FC = () => {
                       >
                         <i className="ri-eye-line"></i> View
                       </button>
-                      <button
-                        className="delete-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openDeleteModal(item.id!);
-                        }}
-                      >
-                        <i className="ri-delete-bin-line"></i> Delete
-                      </button>
+                  
                     </td>
                   </tr>
                 );

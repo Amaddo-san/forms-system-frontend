@@ -8,6 +8,8 @@ import HomeRedirector from "./pages/HomeRedirector";
 import DoctorHomePage from "./pages/DoctorHomePage";
 import HomePage from "./pages/HomePage";
 import AppConfigsPage from "./pages/AppConfigsPage";
+import AppConfigCreatePage from "./pages/AppConfigCreatePage";
+
 
 
 const App: React.FC = () => {
@@ -22,6 +24,7 @@ const App: React.FC = () => {
         <Route path="/submission/:uuid" element={<SubmissionDetailsPage />} />
         <Route path="/review/:id" element={<ReviewSubmissionPage />} />
         <Route path="/app-configs" element={<AppConfigsPage />} />
+        <Route path="/app-configs/create" element={<AppConfigCreatePage />} />
       </Routes>
     </Router>
   );
